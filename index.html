@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>牙科診所 SOP 文件系統</title>
+<style>
+:root {
+  --primary: #0f6cbf;
+  --primary-dark: #0a4f91;
+  --primary-light: #e8f2fc;
+  --accent: #17a589;
+  --accent-light: #e8f6f3;
+  --warn: #e67e22;
+  --warn-light: #fef5e7;
+  --danger: #c0392b;
+  --danger-light: #fdedec;
+  --text: #2c3e50;
+  --text-muted: #7f8c8d;
+  --border: #dde3e9;
+  --bg: #f5f7fa;
+  --sidebar-w: 280px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "Noto Sans TC", sans-serif; color: var(--text); background: var(--bg); display: flex; min-height: 100vh; }
+
+/* ── Sidebar ── */
+#sidebar {
+  width: var(--sidebar-w); min-width: var(--sidebar-w);
+  background: #1a2332; color: #c8d6e5;
+  display: flex; flex-direction: column;
+  position: fixed; top: 0; left: 0; height: 100vh;
+  overflow-y: auto; z-index: 100;
+}
+#sidebar-header { padding: 20px 18px 14px; border-bottom: 1px solid #2d3f55; }
+#sidebar-header h1 { font-size: 15px; color: #fff; font-weight: 700; line-height: 1.4; }
+#sidebar-header p { font-size: 11px; color: #7f9ab5; margin-top: 4px; }
+#search-wrap { padding: 12px 14px; border-bottom: 1px solid #2d3f55; }
+#search { width: 100%; padding: 7px 10px; border-radius: 6px; border: 1px solid #2d3f55; background: #243144; color: #c8d6e5; font-size: 13px; outline: none; }
+#search::placeholder { color: #5d7a96; }
+#search:focus { border-color: var(--primary); }
+.nav-section { padding: 8px 0; border-bottom: 1px solid #2d3f55; }
+.nav-section-title { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; color: #5d7a96; padding: 6px 16px 4px; text-transform: uppercase; }
+.nav-item { display: flex; align-items: center; gap: 8px; padding: 7px 16px; cursor: pointer; font-size: 13px; color: #a0b4c8; border-left: 3px solid transparent; transition: all .15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nav-item:hover { background: #243144; color: #fff; }
+.nav-item.active { background: #1e3a5f; color: #fff; border-left-color: var(--primary); }
+.nav-item .tag { font-size: 10px; padding: 1px 5px; border-radius: 3px; background: #2d3f55; color: #7f9ab5; flex-shrink: 0; margin-left: auto; }
+.nav-item.active .tag { background: var(--primary); color: #fff; }
+
+/* ── Main ── */
+#main { margin-left: var(--sidebar-w); flex: 1; min-height: 100vh; }
+#topbar { background: #fff; border-bottom: 1px solid var(--border); padding: 12px 32px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 50; }
+#doc-title { font-size: 18px; font-weight: 700; color: var(--text); flex: 1; }
+.btn { padding: 7px 14px; border-radius: 6px; border: 1px solid var(--border); background: #fff; cursor: pointer; font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
+.btn:hover { background: var(--bg); }
+.btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+.btn-primary:hover { background: var(--primary-dark); }
+#content { padding: 32px; max-width: 900px; }
+
+/* ── Doc content ── */
+.doc h1 { font-size: 26px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+.doc .meta { font-size: 12px; color: var(--text-muted); margin-bottom: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
+.doc .meta span { background: var(--bg); padding: 2px 8px; border-radius: 4px; }
+.doc h2 { font-size: 18px; font-weight: 700; color: var(--primary-dark); margin: 28px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--primary-light); }
+.doc h3 { font-size: 15px; font-weight: 700; color: var(--text); margin: 20px 0 8px; }
+.doc p { line-height: 1.8; margin-bottom: 10px; }
+.doc ul, .doc ol { padding-left: 22px; margin-bottom: 12px; }
+.doc li { line-height: 1.9; font-size: 14.5px; }
+.doc table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 14px; }
+.doc th { background: var(--primary); color: #fff; padding: 9px 12px; text-align: left; font-weight: 600; }
+.doc td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+.doc tr:nth-child(even) td { background: var(--primary-light); }
+.doc code { background: #f0f3f7; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 13px; }
+.doc pre { background: #1a2332; color: #a8c7e8; padding: 16px 20px; border-radius: 8px; margin: 14px 0; overflow-x: auto; font-size: 13px; line-height: 1.7; }
+
+/* Callouts */
+.callout { border-radius: 8px; padding: 14px 16px; margin: 16px 0; border-left: 4px solid; }
+.callout-note { background: var(--primary-light); border-color: var(--primary); }
+.callout-warn { background: var(--warn-light); border-color: var(--warn); }
+.callout-danger { background: var(--danger-light); border-color: var(--danger); }
+.callout-tip { background: var(--accent-light); border-color: var(--accent); }
+.callout-title { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+.callout-note .callout-title { color: var(--primary-dark); }
+.callout-warn .callout-title { color: var(--warn); }
+.callout-danger .callout-title { color: var(--danger); }
+.callout-tip .callout-title { color: var(--accent); }
+
+/* Checklist */
+.checklist { list-style: none; padding: 0; margin: 12px 0 18px; }
+.checklist li { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; font-size: 14.5px; line-height: 1.6; border-bottom: 1px solid #f0f3f7; }
+.checklist li:last-child { border-bottom: none; }
+.checklist input[type=checkbox] { width: 16px; height: 16px; margin-top: 3px; accent-color: var(--primary); flex-shrink: 0; cursor: pointer; }
+.checklist label { cursor: pointer; }
+.checklist input:checked + label { text-decoration: line-through; color: var(--text-muted); }
+
+/* Badge */
+.badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+.badge-pre { background: #fdebd0; color: #784212; }
+.badge-qm { background: #d5f5e3; color: #1a5276; }
+.badge-qp { background: #d6eaf8; color: #1a5276; }
+.badge-wsop { background: #e8daef; color: #6c3483; }
+.badge-ck { background: #fdfefe; color: #2c3e50; border: 1px solid #dde3e9; }
+
+/* Home page */
+.home-hero { background: linear-gradient(135deg, var(--primary-dark) 0%, #1a6fa8 100%); color: #fff; padding: 40px 32px; border-radius: 12px; margin-bottom: 28px; }
+.home-hero h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+.home-hero p { opacity: .85; font-size: 15px; line-height: 1.7; }
+.home-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 28px; }
+.stat-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 18px; text-align: center; }
+.stat-num { font-size: 32px; font-weight: 800; color: var(--primary); }
+.stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.doc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.doc-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 16px; cursor: pointer; transition: all .15s; }
+.doc-card:hover { border-color: var(--primary); box-shadow: 0 2px 12px rgba(15,108,191,.1); transform: translateY(-1px); }
+.doc-card-id { font-size: 11px; color: var(--text-muted); font-weight: 700; letter-spacing: .5px; }
+.doc-card-title { font-size: 14px; font-weight: 700; margin: 4px 0; }
+.doc-card-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
+.section-header { font-size: 13px; font-weight: 700; color: var(--text-muted); letter-spacing: .5px; margin: 24px 0 10px; text-transform: uppercase; }
+
+/* Pyramid */
+.pyramid { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin: 20px 0; }
+.pyramid-row { display: flex; justify-content: center; margin-bottom: 6px; }
+.pyramid-block { border-radius: 6px; padding: 10px 20px; text-align: center; font-weight: 700; font-size: 13px; color: #fff; }
+
+/* Progress bar */
+.progress-bar { background: #e8edf2; border-radius: 4px; height: 6px; margin: 6px 0 14px; }
+.progress-fill { background: var(--primary); height: 100%; border-radius: 4px; transition: width .3s; }
+
+/* Print */
+@media print {
+  #sidebar, #topbar { display: none; }
+  #main { margin-left: 0; }
+  #content { padding: 20px; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  #sidebar { transform: translateX(-100%); transition: transform .25s; }
+  #sidebar.open { transform: translateX(0); }
+  #main { margin-left: 0; }
+  .home-stats { grid-template-columns: repeat(3, 1fr); }
+  .doc-grid { grid-template-columns: 1fr; }
+  #content { padding: 18px; }
+}
+.menu-btn { display: none; }
+@media (max-width: 768px) { .menu-btn { display: flex; } }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav id="sidebar">
+  <div id="sidebar-header">
+    <h1>🦷 牙科診所<br>SOP 文件系統</h1>
+    <p>24 份標準作業程序</p>
+  </div>
+  <div id="search-wrap">
+    <input id="search" type="text" placeholder="搜尋文件…" oninput="filterNav(this.value)">
+  </div>
+  <div id="nav-tree"></div>
+</nav>
+
+<!-- Main -->
+<div id="main">
+  <div id="topbar">
+    <button class="btn menu-btn" onclick="toggleSidebar()">☰</button>
+    <div id="doc-title">總覽</div>
+    <button class="btn" onclick="window.print()">🖨 列印</button>
+    <button class="btn btn-primary" onclick="resetChecks()">重置勾選</button>
+  </div>
+  <div id="content"></div>
+</div>
+
+<script>
+// ── Document Data ──────────────────────────────────────────────
+const DOCS = [
+{id:'HOME', cat:'home', title:'文件總覽', badge:'', desc:''},
+// PRE
+{id:'PRE-01', cat:'PRE', title:'開業前期總時程', badge:'badge-pre',
+ desc:'6–12 個月里程碑、選址評估、成本概估',
+ content:`
+<h2>開業里程碑</h2>
+<pre>[M-12] 選址評估 & 市場調查
+[M-10] 場地確認 & 建築評估
+[M-9]  建築師繪圖 & 衛生局預審
+[M-8]  裝修動工
+[M-6]  設備採購下訂
+[M-4]  裝修完工 & 設備進場安裝
+[M-3]  申請診所開業執照 + 健保特約申請
+[M-2]  人員招募 & 到職訓練
+[M-1]  試營運（軟開幕）
+[M-0]  正式開業</pre>
+<h2>階段一：決策與選址</h2>
+<h3>選址評估標準</h3>
+<table><tr><th>項目</th><th>評估重點</th></tr>
+<tr><td>交通</td><td>距捷運/公車站步行距離、停車位</td></tr>
+<tr><td>樓層</td><td>1–2 樓優先（無障礙、招牌可見度）</td></tr>
+<tr><td>坪數</td><td>最小建議 30 坪以上（含診療室、候診、滅菌、廁所）</td></tr>
+<tr><td>租金</td><td>月租不超過預估月營收 10%</td></tr>
+<tr><td>建物年齡</td><td>注意結構安全、給排水管路是否需更新</td></tr></table>
+<h2>開業成本概估</h2>
+<table><tr><th>項目</th><th>概估金額</th></tr>
+<tr><td>裝修費用</td><td>NT$200–500 萬</td></tr>
+<tr><td>治療椅（每張）</td><td>NT$30–80 萬</td></tr>
+<tr><td>X 光設備</td><td>NT$20–200 萬</td></tr>
+<tr><td>高壓滅菌鍋</td><td>NT$15–30 萬</td></tr>
+<tr><td>電腦掛號系統</td><td>NT$3–10 萬/年</td></tr>
+<tr><td>初期耗材備貨</td><td>NT$10–20 萬</td></tr>
+<tr><td><strong>合計（最低估算）</strong></td><td><strong>NT$300–900 萬</strong></td></tr></table>
+<div class="callout callout-warn"><div class="callout-title">⚠ 新診所健保限額</div>新開業診所前 18 個月健保申報有點數上限（高雄約 NT$30 萬/月），開業初期需積極發展自費療程補足收入缺口。</div>`
+},
+{id:'PRE-02', cat:'PRE', title:'法規申請文件清單', badge:'badge-pre',
+ desc:'衛生局、健保署、原能會、消防局申請明細',
+ content:`
+<h2>申請時序建議</h2>
+<pre>[裝修期間] → X光申報 + 消防申請 + 廢棄物合約（同步）
+[裝修完工] → 消防查驗 → 衛生局診所開業許可
+[取得開業許可] → 醫師執業登記 + 健保特約申請（同步）
+[健保生效] → 正式開診</pre>
+<h2>一、診所開業許可</h2>
+<p><strong>主管機關</strong>：縣市衛生局｜<strong>預估時程</strong>：2–4 週</p>
+<h3>申請文件</h3>
+<ul class="checklist" id="chk-pre02-1">
+<li><input type="checkbox"><label>醫療機構開業申請書</label></li>
+<li><input type="checkbox"><label>負責醫師身分證影本</label></li>
+<li><input type="checkbox"><label>醫師執照影本</label></li>
+<li><input type="checkbox"><label>醫師執業執照影本</label></li>
+<li><input type="checkbox"><label>建物使用執照影本</label></li>
+<li><input type="checkbox"><label>建物平面圖（建築師簽章）</label></li>
+<li><input type="checkbox"><label>消防安全設備檢查合格證明</label></li>
+<li><input type="checkbox"><label>租賃契約或房屋所有權狀</label></li>
+<li><input type="checkbox"><label>現場照片（各區域）</label></li>
+<li><input type="checkbox"><label>診療設備清單</label></li>
+<li><input type="checkbox"><label>感染性廢棄物清除合約</label></li></ul>
+<h3>最低空間標準</h3>
+<table><tr><th>區域</th><th>最低要求</th></tr>
+<tr><td>候診室</td><td>10 平方公尺以上</td></tr>
+<tr><td>診療室</td><td>每診椅 10 平方公尺以上</td></tr>
+<tr><td>污物處理室</td><td>獨立空間</td></tr>
+<tr><td>廁所</td><td>1 間以上</td></tr></table>
+<h2>二、X 光設備申報（原能會）</h2>
+<div class="callout callout-danger"><div class="callout-title">🚨 重要</div>未申報即安裝屬違法，需先取得許可再安裝設備。</div>
+<h3>申請流程</h3>
+<ul class="checklist" id="chk-pre02-2">
+<li><input type="checkbox"><label>委託醫用物理師出具輻射防護計劃書</label></li>
+<li><input type="checkbox"><label>向 AEC 申請醫療放射設備操作許可</label></li>
+<li><input type="checkbox"><label>取得許可後安裝設備</label></li>
+<li><input type="checkbox"><label>安裝完成後通知 AEC 進行查驗</label></li>
+<li><input type="checkbox"><label>查驗通過取得設備登記證</label></li></ul>
+<h2>三、健保特約申請</h2>
+<p><strong>主管機關</strong>：健保署｜<strong>預估時程</strong>：4–8 週</p>
+<ul class="checklist" id="chk-pre02-3">
+<li><input type="checkbox"><label>確認已領有開業執照</label></li>
+<li><input type="checkbox"><label>全民健保特約申請書</label></li>
+<li><input type="checkbox"><label>診所開業許可證影本</label></li>
+<li><input type="checkbox"><label>醫事人員名冊</label></li>
+<li><input type="checkbox"><label>感染性廢棄物清除合約</label></li>
+<li><input type="checkbox"><label>簽訂健保特約合約，確認生效日</label></li></ul>`
+},
+{id:'PRE-03', cat:'PRE', title:'場地設備規劃', badge:'badge-pre',
+ desc:'空間配置、設備清單、裝修材質、電力規劃',
+ content:`
+<h2>空間配置（雙診椅診所）</h2>
+<table><tr><th>區域</th><th>功能</th><th>建議坪數</th></tr>
+<tr><td>候診室</td><td>等待、衛教展示</td><td>5–8 坪</td></tr>
+<tr><td>前台/掛號</td><td>接待、收費、電話預約</td><td>3–5 坪</td></tr>
+<tr><td>診療室（每間）</td><td>主診療椅</td><td>5–8 坪</td></tr>
+<tr><td>X 光室</td><td>根尖/OPG/CBCT</td><td>3–5 坪</td></tr>
+<tr><td>滅菌室</td><td>器械清洗、滅菌、存放</td><td>3–5 坪</td></tr>
+<tr><td>廁所</td><td>患者用 + 員工用</td><td>2–3 坪</td></tr>
+<tr><td><strong>合計</strong></td><td></td><td><strong>約 30–50 坪</strong></td></tr></table>
+<h2>核心設備清單</h2>
+<table><tr><th>設備</th><th>規格建議</th><th>概估費用</th><th>交期</th></tr>
+<tr><td>牙科治療椅</td><td>電動式，含燈、水氣槽</td><td>NT$30–80 萬/張</td><td>8–12 週</td></tr>
+<tr><td>根尖 X 光機</td><td>數位感應器（RVG）優先</td><td>NT$15–30 萬</td><td>4–6 週</td></tr>
+<tr><td>全口曲面斷層（OPG）</td><td>數位式</td><td>NT$60–120 萬</td><td>6–10 週</td></tr>
+<tr><td>高壓滅菌鍋</td><td>Class B，22L 以上</td><td>NT$15–30 萬</td><td>4 週</td></tr>
+<tr><td>超音波洗淨機</td><td>酵素清洗液配套</td><td>NT$3–8 萬</td><td>2 週</td></tr>
+<tr><td>空壓機</td><td>靜音型，油壓分離式</td><td>NT$5–15 萬</td><td>2 週</td></tr>
+<tr><td>AED</td><td>急救必備</td><td>NT$3–8 萬</td><td>1 週</td></tr></table>
+<div class="callout callout-note"><div class="callout-title">📋 電力規劃重點</div>高壓滅菌鍋需三相 220V，CBCT 依機型需求。裝修前請電機技師確認總電力負荷，避免開業後跳電。</div>`
+},
+{id:'PRE-04', cat:'PRE', title:'感染管制 SOP', badge:'badge-pre',
+ desc:'清消、手部衛生、滅菌流程、廢棄物分類、針扎處理',
+ content:`
+<h2>一、診間清消</h2>
+<h3>每診次之間</h3>
+<ul class="checklist" id="chk-pre04-1">
+<li><input type="checkbox"><label>更換手套</label></li>
+<li><input type="checkbox"><label>治療椅（椅面、扶手、頭靠、燈桿、托盤）酒精消毒濕巾擦拭</label></li>
+<li><input type="checkbox"><label>痰盂沖洗並噴消毒液</label></li>
+<li><input type="checkbox"><label>拋棄式物品統一丟棄</label></li>
+<li><input type="checkbox"><label>補充下一位患者所需拋棄式耗材</label></li></ul>
+<h3>牙科水路（Dental Unit Waterline）管理</h3>
+<table><tr><th>頻率</th><th>動作</th></tr>
+<tr><td>每日開診前</td><td>各水路放水 30 秒後開始使用</td></tr>
+<tr><td>每診次後</td><td>三用槍放水 20–30 秒沖洗管路</td></tr>
+<tr><td>每週</td><td>依廠商指引執行水路消毒</td></tr>
+<tr><td>每半年</td><td>送水樣本至合格實驗室檢測菌落數</td></tr></table>
+<h2>二、器械滅菌流程</h2>
+<pre>使用後器械 → 流水沖洗 → 超音波清洗（10–15 分鐘）
+→ 沖洗擦乾 → 目視檢查 → 紙塑袋包裝 + 封口
+→ 貼標籤（日期/批號/效期）→ 高壓滅菌（134°C/18分鐘）
+→ 確認指示劑變色 ✓ → 乾燥存放</pre>
+<h2>三、廢棄物分類</h2>
+<table><tr><th>種類</th><th>容器</th><th>範例</th></tr>
+<tr><td>感染性廢棄物</td><td>紅色廢棄物袋</td><td>血液沾染紗布、手套、口罩</td></tr>
+<tr><td>尖銳物</td><td>銳器桶（黃色）</td><td>針頭、刀片、銼刀</td></tr>
+<tr><td>一般垃圾</td><td>一般垃圾袋</td><td>未沾血的紙巾、包裝</td></tr></table>
+<h2>四、針扎事件緊急處理</h2>
+<div class="callout callout-danger"><div class="callout-title">🚨 發生針扎立即執行</div></div>
+<ul class="checklist" id="chk-pre04-2">
+<li><input type="checkbox"><label>立即脫除手套</label></li>
+<li><input type="checkbox"><label>傷口流水沖洗至少 15 分鐘（不可擠壓）</label></li>
+<li><input type="checkbox"><label>通知主管</label></li>
+<li><input type="checkbox"><label>填寫針扎事件報告表</label></li>
+<li><input type="checkbox"><label>評估源頭患者風險（HIV / HBV / HCV 快篩）</label></li>
+<li><input type="checkbox"><label>就醫評估（PEP 預防用藥需在 72 小時內開始）</label></li>
+<li><input type="checkbox"><label>後續追蹤（6 週、3 個月、6 個月）</label></li></ul>`
+},
+{id:'PRE-05', cat:'PRE', title:'健保申報 SOP', badge:'badge-pre',
+ desc:'月度申報時程、自查指標、審查應對、申復流程',
+ content:`
+<h2>每月申報時程</h2>
+<table><tr><th>時段</th><th>申報案件</th><th>截止日</th></tr>
+<tr><td>1 日–15 日</td><td>上半月醫療服務</td><td>次月 10 日前</td></tr>
+<tr><td>16 日–月底</td><td>下半月醫療服務</td><td>次月 20 日前</td></tr>
+<tr><td>全月（整批）</td><td>當月全部案件</td><td>次月 20 日前</td></tr></table>
+<div class="callout callout-danger"><div class="callout-title">⚠ 逾期申報後果</div>未依期限申報者，申報當月不予暫付；延遲申報可能被列為異常案件。</div>
+<h2>申報前自查清單</h2>
+<ul class="checklist" id="chk-pre05-1">
+<li><input type="checkbox"><label>每位患者當月就診有主訴、處置記錄、X 光或照片</label></li>
+<li><input type="checkbox"><label>侵入性治療有同意書（拔牙、根管、手術）</label></li>
+<li><input type="checkbox"><label>技工單日期能對應申報項目</label></li>
+<li><input type="checkbox"><label>申報處置碼與病歷記載一致</label></li>
+<li><input type="checkbox"><label>根管治療：申報次數與工作長度測量、根尖 X 光相符</label></li>
+<li><input type="checkbox"><label>牙周治療：Periodontal Charting 有書面或數位記錄</label></li></ul>
+<h2>健保三層管控機制</h2>
+<table><tr><th>層級</th><th>觸發情境</th><th>要求提供</th></tr>
+<tr><td>輔導</td><td>申報量異常、點值偏高</td><td>醫日報表、申報案件明細</td></tr>
+<tr><td>醫療確認單</td><td>前項後仍異常</td><td>醫療確認單（逐案說明）</td></tr>
+<tr><td>醫療品質監控期</td><td>持續異常或重大疑義</td><td>確認單 + 診療證明文件</td></tr></table>
+<h2>收到公文後處理流程</h2>
+<pre>收到公文 → 指定負責人、建立案件編號
+  ↓ 確認回覆期限（通常 14–30 天）
+  ↓ 整理病歷、X 光、照片、同意書、技工單
+  ↓ 治療醫師補充 Clinical Rationale
+  ↓ 負責醫師審閱確認
+  ↓ 送件（保留版本 + 附件清單）
+  ↓ 記錄後續結果</pre>`
+},
+{id:'PRE-06', cat:'PRE', title:'病歷與同意書 SOP', badge:'badge-pre',
+ desc:'SOAP 格式、各療程同意書、廣告合規 SOP',
+ content:`
+<h2>初診病歷必填欄位</h2>
+<table><tr><th>欄位</th><th>內容</th></tr>
+<tr><td>主訴</td><td>患者來診主要原因，以患者用語記錄</td></tr>
+<tr><td>過敏史</td><td>藥物、麻醉藥、材料過敏（無過敏記錄「NKA」）</td></tr>
+<tr><td>系統性疾病</td><td>糖尿病、高血壓、心臟病、骨質疏鬆、服藥狀況</td></tr>
+<tr><td>口腔檢查</td><td>牙齒現況、缺牙、修復物、軟組織</td></tr>
+<tr><td>X 光讀片</td><td>初診全口 X 光臨床意義</td></tr>
+<tr><td>治療計畫</td><td>建議療程優先順序說明</td></tr></table>
+<h2>SOAP 格式（每次就診）</h2>
+<table><tr><th>項目</th><th>說明</th></tr>
+<tr><td><strong>S</strong>ubjective</td><td>患者主訴（今天有什麼問題、感覺）</td></tr>
+<tr><td><strong>O</strong>bjective</td><td>臨床發現（探測、視診、X 光、冷熱測試等）</td></tr>
+<tr><td><strong>A</strong>ssessment</td><td>診斷（用正確診斷名稱，必要時附 ICD 碼）</td></tr>
+<tr><td><strong>P</strong>lan</td><td>治療計畫 + 今日執行 + 下次療程說明</td></tr></table>
+<h2>需取得同意書的情境</h2>
+<table><tr><th>情境</th><th>同意書種類</th></tr>
+<tr><td>所有患者初診</td><td>一般診療同意書（含個資使用同意）</td></tr>
+<tr><td>牙齒拔除</td><td>拔牙手術同意書</td></tr>
+<tr><td>根管治療</td><td>根管治療同意書</td></tr>
+<tr><td>植牙手術</td><td>植牙手術同意書（含補骨、上頜竇手術等）</td></tr>
+<tr><td>牙周手術</td><td>牙周手術同意書</td></tr>
+<tr><td>未成年人</td><td>法定代理人（家長）簽署</td></tr></table>
+<div class="callout callout-warn"><div class="callout-title">📣 醫療廣告合規</div>
+<strong>禁止</strong>：宣稱療效保證/成功率、使用 Before/After 照片（未核准）、誇大療效<br>
+<strong>合規</strong>：診所名稱地址電話、看診時間、醫師姓名學歷、服務科別</div>`
+},
+{id:'PRE-07', cat:'PRE', title:'合夥治理 Checklist', badge:'badge-pre',
+ desc:'股權、決策門檻、退出條款、行政醫師職責',
+ content:`
+<div class="callout callout-note"><div class="callout-title">📌 注意</div>本文件為決策項目框架，正式簽署前請交由會計師與醫療法律顧問確認。</div>
+<h2>一、組織型態</h2>
+<ul class="checklist" id="chk-pre07-1">
+<li><input type="checkbox"><label>確認組織型態（個人行號 / 有限公司 / 隱性合夥）</label></li>
+<li><input type="checkbox"><label>明訂負責醫師補償（掛牌費、風險加給、管理津貼）</label></li>
+<li><input type="checkbox"><label>法律顧問確認組織架構合規性</label></li></ul>
+<h2>二、決策機制</h2>
+<table><tr><th>事項類型</th><th>決議門檻</th></tr>
+<tr><td>日常營運</td><td>行政醫師/院長決定</td></tr>
+<tr><td>一般重大事項</td><td>過半數股東同意</td></tr>
+<tr><td>重大資本支出</td><td>＿＿% 股東同意</td></tr>
+<tr><td>出售診所</td><td>全體股東同意</td></tr>
+<tr><td>解散或清算</td><td>全體股東同意</td></tr></table>
+<h2>三、牙科營運條款（最易引發爭議）</h2>
+<ul class="checklist" id="chk-pre07-2">
+<li><input type="checkbox"><label>健保點值：扣技工費前或後計算？</label></li>
+<li><input type="checkbox"><label>自費：扣材料費前或後？</label></li>
+<li><input type="checkbox"><label>植牙、矯正、美學修復是否另計？</label></li>
+<li><input type="checkbox"><label>技工費由診所或醫師個人負擔？</label></li>
+<li><input type="checkbox"><label>轉診 production 如何歸屬？</label></li>
+<li><input type="checkbox"><label>建立核可材料清單（植體系統、技工所）</label></li></ul>
+<h2>四、行政醫師職責</h2>
+<table><tr><th>職責範圍</th><th>說明</th></tr>
+<tr><td>人員管理</td><td>排班、招募、考核、勞資協調</td></tr>
+<tr><td>財務管理</td><td>月度數據、現金流、預算、股東報告</td></tr>
+<tr><td>品牌行銷</td><td>社群媒體、Google 評論、行銷活動</td></tr>
+<tr><td>品質制度</td><td>SOP 維護、感染管制、客訴處理</td></tr>
+<tr><td>行政報酬</td><td>固定管理津貼 + 營運績效獎金</td></tr></table>`
+},
+// QM
+{id:'QM-01', cat:'QM', title:'診所管理手冊', badge:'badge-qm',
+ desc:'使命、願景、組織架構、醫師雙重角色、管理總則',
+ content:`
+<h2>診所核心理念</h2>
+<table><tr><th>項目</th><th>內容</th></tr>
+<tr><td><strong>使命</strong></td><td>為患者提供安全、舒適、高品質的牙科醫療服務，以專業和同理心建立長期信賴關係。</td></tr>
+<tr><td><strong>願景</strong></td><td>成為社區首選的全科牙醫診所，建立可複製的標準化營運體系，具備連鎖擴張能力。</td></tr></table>
+<h3>核心價值</h3>
+<ul>
+<li><strong>專業</strong>：持續精進臨床技術，以 Evidence-Based 醫療為基礎</li>
+<li><strong>誠信</strong>：對患者誠實說明療程與費用，不誇大不欺瞞</li>
+<li><strong>效率</strong>：SOP 化日常流程，讓每位員工都能達到穩定水準</li>
+<li><strong>關懷</strong>：患者的關心不止於診療，更延伸至術後追蹤</li></ul>
+<h2>組織架構</h2>
+<pre>院長
+├── 主治醫師
+│   └── 跟診助理（各診）
+└── 診所主管（行政長）
+    ├── 前台助理
+    └── 清潔/庶務</pre>
+<h2>醫師的雙重角色</h2>
+<table><tr><th>面向</th><th>職責</th></tr>
+<tr><td>醫病關係</td><td>提供專業診療技術、應對患者各種需求、符合社會對醫師的期待</td></tr>
+<tr><td>診所經營</td><td>為診所帶來穩定業績、治療時適時介紹其他療程、建立個人品牌形象</td></tr></table>
+<div class="callout callout-note"><div class="callout-title">💡 核心觀念</div>醫師當然要有專業，但又不能只有醫療專業。</div>
+<h2>SOP 文件層級</h2>
+<div class="pyramid">
+<div class="pyramid-row"><div class="pyramid-block" style="background:#1a5276;width:180px">QM 管理手冊</div></div>
+<div class="pyramid-row"><div class="pyramid-block" style="background:#1a6fa8;width:260px">QP 人員管理作業程序</div></div>
+<div class="pyramid-row"><div class="pyramid-block" style="background:#2e86c1;width:340px">WSOP 各站工作程序</div></div>
+<div class="pyramid-row"><div class="pyramid-block" style="background:#5dade2;width:420px">CK 日常 Checklist + 再考核表</div></div>
+</div>`
+},
+// QP
+{id:'QP-01', cat:'QP', title:'人員管理作業程序', badge:'badge-qp',
+ desc:'招募原則、到職訓練、試用期考核、晉升路徑、離職流程',
+ content:`
+<h2>班表制度</h2>
+<table><tr><th>班別</th><th>時間</th><th>適合對象</th></tr>
+<tr><td>早班</td><td>10:00–16:00</td><td>有接送小孩需求的助理</td></tr>
+<tr><td>晚班</td><td>14:00–20:00</td><td>下午到職的助理</td></tr></table>
+<div class="callout callout-tip"><div class="callout-title">💡 班表設計理念</div>縮短上班時數、無固定午休（輪流用餐），讓有家庭的女性助理能兼顧生活，提升留任率。</div>
+<h2>招募原則</h2>
+<ol><li><strong>優先招募過去合作過的助理</strong>：默契高、訓練成本低</li>
+<li><strong>品格重於技術</strong>：技術可以訓練，態度難以改變</li>
+<li><strong>口碑介紹優先</strong>：現有員工推薦，成功率較高</li></ol>
+<h2>到職流程</h2>
+<h3>第一天</h3>
+<ul class="checklist" id="chk-qp01-1">
+<li><input type="checkbox"><label>簽署到職文件（勞動契約、保密協議、個資同意書）</label></li>
+<li><input type="checkbox"><label>閱讀並簽署員工手冊</label></li>
+<li><input type="checkbox"><label>帶領參觀診所各區域、介紹同事</label></li>
+<li><input type="checkbox"><label>發放工作服、工具、系統帳號</label></li>
+<li><input type="checkbox"><label>說明試用期規定與考核方式</label></li></ul>
+<h2>晉升路徑</h2>
+<pre>新進助理 → 一般助理 → 資深助理 → 組長/主管
+（0–3月）   （3–12月）  （1–3年）   （3年以上）</pre>
+<h2>試用期考核表（每月）</h2>
+<table><tr><th>項目</th><th>評分（1–5）</th></tr>
+<tr><td>出勤準時</td><td></td></tr>
+<tr><td>SOP 執行度</td><td></td></tr>
+<tr><td>工作態度</td><td></td></tr>
+<tr><td>學習進度</td><td></td></tr>
+<tr><td>患者應對</td><td></td></tr>
+<tr><td><strong>合計（20分以上通過）</strong></td><td><strong>/25</strong></td></tr></table>`
+},
+{id:'QP-02', cat:'QP', title:'員工手冊', badge:'badge-qp',
+ desc:'班表、請假規定、服裝儀容、保密義務、緊急狀況',
+ content:`
+<h2>請假制度</h2>
+<table><tr><th>假別</th><th>規定</th></tr>
+<tr><td>特休</td><td>依年資依法給予（1年：3天；2年：7天；3年：10天…）</td></tr>
+<tr><td>病假</td><td>每年 30 天，半薪；超過 3 日需就醫證明</td></tr>
+<tr><td>事假</td><td>每年 14 天，無薪</td></tr>
+<tr><td>生理假</td><td>每月 1 天，半薪</td></tr>
+<tr><td>婚假</td><td>8 天，全薪</td></tr>
+<tr><td>喪假</td><td>依親疏遠近 3–8 天，全薪</td></tr></table>
+<h2>服裝儀容</h2>
+<table><tr><th>項目</th><th>規定</th></tr>
+<tr><td>工作服</td><td>診所提供，每日整潔穿著，不可私自改裝</td></tr>
+<tr><td>頭髮</td><td>工作中需束起，不染誇張髮色</td></tr>
+<tr><td>飾品</td><td>進入診療區禁止戴戒指、手鐲（感染控制要求）</td></tr>
+<tr><td>指甲</td><td>跟診人員不可留長指甲、不可貼假甲</td></tr>
+<tr><td>鞋子</td><td>包頭鞋，不可穿拖鞋或涼鞋</td></tr></table>
+<h2>行為規範</h2>
+<h3>對患者</h3>
+<ul>
+<li>任何時候保持禮貌、耐心</li>
+<li>不在候診區討論其他患者病情或費用</li>
+<li>不私下收受患者紅包（超過 NT$200 者須告知主管）</li>
+<li>患者個資絕對保密</li></ul>
+<h2>保密義務</h2>
+<div class="callout callout-warn"><div class="callout-title">⚠ 離職後 2 年內仍適用</div>不得洩露：患者名單/病歷、內部營運數據、SOP 文件、員工薪資與人事資訊。違反者診所保留法律追訴權。</div>
+<h2>緊急狀況速查</h2>
+<table><tr><th>情況</th><th>處理方式</th></tr>
+<tr><td>患者暈厥</td><td>立即通知醫師，啟動急救程序</td></tr>
+<tr><td>針扎事件</td><td>立即沖水 15 分鐘 → 通知主管 → 填報告 → 就醫</td></tr>
+<tr><td>火災</td><td>通知疏散 → 撥打 119 → 不可乘電梯</td></tr>
+<tr><td>患者抱怨</td><td>不爭辯，立即安撫 → 通知主管處理</td></tr></table>`
+},
+{id:'QP-03', cat:'QP', title:'獎金與考核制度', badge:'badge-qp',
+ desc:'底薪結構、KPI 項目、月度考核週期、晉升薪資表',
+ content:`
+<h2>薪資組成</h2>
+<pre>月薪 = 底薪 + 全勤獎金 + 績效獎金 + 技能加給</pre>
+<h2>底薪區間參考</h2>
+<table><tr><th>職位</th><th>試用期</th><th>正式</th><th>資深（3年+）</th></tr>
+<tr><td>前台助理</td><td>NT$28,000</td><td>NT$30,000–35,000</td><td>NT$35,000–40,000</td></tr>
+<tr><td>跟診助理</td><td>NT$28,000</td><td>NT$30,000–36,000</td><td>NT$36,000–42,000</td></tr>
+<tr><td>組長/主管</td><td>—</td><td>NT$38,000–45,000</td><td>NT$45,000+</td></tr></table>
+<h2>個人 KPI — 前台助理</h2>
+<table><tr><th>項目</th><th>權重</th></tr>
+<tr><td>回診率</td><td>30%</td></tr>
+<tr><td>新患者滿意度</td><td>20%</td></tr>
+<tr><td>訊息回覆速度（1小時內）</td><td>20%</td></tr>
+<tr><td>SOP 執行度</td><td>20%</td></tr>
+<tr><td>帳務正確性</td><td>10%</td></tr></table>
+<h2>個人 KPI — 跟診助理</h2>
+<table><tr><th>項目</th><th>權重</th></tr>
+<tr><td>器械準備正確率</td><td>30%</td></tr>
+<tr><td>SOP 執行度</td><td>30%</td></tr>
+<tr><td>滅菌記錄完整性</td><td>20%</td></tr>
+<tr><td>態度與配合度</td><td>20%</td></tr></table>
+<h2>特別獎勵制度</h2>
+<table><tr><th>項目</th><th>獎勵</th></tr>
+<tr><td>員工推薦新員工（試用通過）</td><td>推薦獎金</td></tr>
+<tr><td>患者留下五星好評且點名員工</td><td>即時獎勵</td></tr>
+<tr><td>提出有效改善建議（採用）</td><td>建議獎金</td></tr>
+<tr><td>連續 6 個月全勤</td><td>額外特休 1 天</td></tr></table>`
+},
+// WSOP
+{id:'WSOP-01', cat:'WSOP', title:'開診流程', badge:'badge-wsop',
+ desc:'09:30–10:00 開診前六大步驟',
+ content:`
+<h2>開診 SOP（09:30–10:00）</h2>
+<h3>1. 到診打卡（09:30）</h3>
+<ul class="checklist" id="chk-wsop01-1">
+<li><input type="checkbox"><label>打卡確認到班時間</label></li>
+<li><input type="checkbox"><label>換上工作服</label></li></ul>
+<h3>2. 環境整理（09:30–09:45）</h3>
+<ul class="checklist" id="chk-wsop01-2">
+<li><input type="checkbox"><label>候診區：椅面擦拭、雜誌整理、飲水機確認</label></li>
+<li><input type="checkbox"><label>前台區：桌面整理、收費台清潔</label></li>
+<li><input type="checkbox"><label>廁所：確認清潔、補充衛生紙、洗手乳</label></li>
+<li><input type="checkbox"><label>診療室：治療椅擦拭（椅面、把手、燈桿）</label></li>
+<li><input type="checkbox"><label>滅菌室：確認昨日滅菌包已備妥</label></li></ul>
+<h3>3. 設備開機（09:40）</h3>
+<ul class="checklist" id="chk-wsop01-3">
+<li><input type="checkbox"><label>開啟電腦、掛號系統登入</label></li>
+<li><input type="checkbox"><label>確認預約系統當日班表</label></li>
+<li><input type="checkbox"><label>開啟 X 光設備（暖機）</label></li>
+<li><input type="checkbox"><label>開啟診療椅電源、吸唾器、空壓機</label></li></ul>
+<h3>4. 耗材確認與補充（09:45）</h3>
+<ul class="checklist" id="chk-wsop01-4">
+<li><input type="checkbox"><label>診療椅旁耗材補充（紙巾、頭套、棉捲、吸管）</label></li>
+<li><input type="checkbox"><label>手術室器械台耗材確認</label></li>
+<li><input type="checkbox"><label>依診別準備器械包</label></li>
+<li><input type="checkbox"><label>確認今日技工單／補給單是否就位</label></li></ul>
+<h3>5. 行政確認（09:50）</h3>
+<ul class="checklist" id="chk-wsop01-5">
+<li><input type="checkbox"><label>確認當日預約名單與療程</label></li>
+<li><input type="checkbox"><label>確認未完成技工單回診狀況</label></li>
+<li><input type="checkbox"><label>確認當日醫師排班無異動</label></li></ul>
+<h3>6. 開門迎診（10:00）</h3>
+<ul class="checklist" id="chk-wsop01-6">
+<li><input type="checkbox"><label>診所大門解鎖、招牌燈開啟</label></li>
+<li><input type="checkbox"><label>前台助理就位，準備接待第一位病患</label></li></ul>`
+},
+{id:'WSOP-02', cat:'WSOP', title:'收診流程', badge:'badge-wsop',
+ desc:'19:30–20:00 收診七大步驟',
+ content:`
+<h2>收診 SOP（19:30–20:00）</h2>
+<h3>1. 最後一診確認</h3>
+<ul class="checklist" id="chk-wsop02-1">
+<li><input type="checkbox"><label>確認最後一位病患已離開</label></li>
+<li><input type="checkbox"><label>醫師確認無急診或加診需求</label></li></ul>
+<h3>2. 帳務結算</h3>
+<ul class="checklist" id="chk-wsop02-2">
+<li><input type="checkbox"><label>列印當日收費明細報表</label></li>
+<li><input type="checkbox"><label>核對現金與系統金額（差異需記錄）</label></li>
+<li><input type="checkbox"><label>現金放入保險箱，填寫交班單</label></li>
+<li><input type="checkbox"><label>確認信用卡、行動支付明細</label></li></ul>
+<h3>3. 器械回收與滅菌</h3>
+<ul class="checklist" id="chk-wsop02-3">
+<li><input type="checkbox"><label>回收所有已使用器械</label></li>
+<li><input type="checkbox"><label>針頭入銳器桶（不超過八分滿）</label></li>
+<li><input type="checkbox"><label>器械清洗 → 超音波 → 擦乾 → 裝包</label></li>
+<li><input type="checkbox"><label>啟動高壓滅菌鍋，貼日期標籤</label></li></ul>
+<h3>4–5. 環境清潔</h3>
+<ul class="checklist" id="chk-wsop02-4">
+<li><input type="checkbox"><label>治療椅全面消毒</label></li>
+<li><input type="checkbox"><label>耗材補充至明日所需量</label></li>
+<li><input type="checkbox"><label>候診區清掃、廁所最終清潔</label></li>
+<li><input type="checkbox"><label>垃圾更換（一般 / 感染性分開）</label></li></ul>
+<h3>6. 行政收尾</h3>
+<ul class="checklist" id="chk-wsop02-5">
+<li><input type="checkbox"><label>填寫隔日預約班表確認</label></li>
+<li><input type="checkbox"><label>技工單確認（送件/取件記錄）</label></li>
+<li><input type="checkbox"><label>書寫當日班交接紀錄</label></li></ul>
+<h3>7. 設備關閉與門禁</h3>
+<ul class="checklist" id="chk-wsop02-6">
+<li><input type="checkbox"><label>空壓機關閉（確認洩壓）</label></li>
+<li><input type="checkbox"><label>所有診療椅電源關閉</label></li>
+<li><input type="checkbox"><label>電腦系統登出、關機</label></li>
+<li><input type="checkbox"><label>空調、燈光逐一關閉</label></li>
+<li><input type="checkbox"><label>門窗鎖好，最後離開者打卡上鎖</label></li></ul>`
+},
+{id:'WSOP-03', cat:'WSOP', title:'前台接待流程', badge:'badge-wsop',
+ desc:'預約管理、到診接待、候診、收費、離院追蹤及話術',
+ content:`
+<h2>患者接觸點全流程</h2>
+<pre>線上搜尋 → 預約 → 到診接待 → 候診 → 就診 → 收費 → 離院追蹤</pre>
+<h2>一、預約管理</h2>
+<h3>電話預約問候語</h3>
+<div class="callout callout-tip"><div class="callout-title">標準話術</div>「您好，OO牙科，我是XXX，請問有什麼需要幫忙的？」<br>結束語：「感謝您的預約，[日期][時間] 我們等您，再見。」</div>
+<h2>二、到診接待</h2>
+<h3>初診</h3>
+<ul class="checklist" id="chk-wsop03-1">
+<li><input type="checkbox"><label>熱情問候，確認姓名與預約時段</label></li>
+<li><input type="checkbox"><label>請填寫初診基本資料表</label></li>
+<li><input type="checkbox"><label>告知候診約需等待時間</label></li>
+<li><input type="checkbox"><label>帶至候診區就座，提供飲水</label></li></ul>
+<h2>三、收費結帳</h2>
+<ul class="checklist" id="chk-wsop03-2">
+<li><input type="checkbox"><label>確認今日治療項目</label></li>
+<li><input type="checkbox"><label>告知費用明細（健保部分負擔 + 自費分開說明）</label></li>
+<li><input type="checkbox"><label>收取費用，開立收據</label></li>
+<li><input type="checkbox"><label>告知下次預約並登錄系統</label></li></ul>
+<h2>四、常用話術</h2>
+<table><tr><th>情境</th><th>建議話術</th></tr>
+<tr><td>費用較高時</td><td>「這個療程費用是 $X，我可以幫您說明明細，有任何問題也可以問醫師。」</td></tr>
+<tr><td>患者猶豫</td><td>「完全沒關係，您可以帶資料回去考慮，有問題隨時傳訊息。」</td></tr>
+<tr><td>等太久道歉</td><td>「非常抱歉讓您久等了，醫師目前正在處理一個需要多一點時間的療程。」</td></tr></table>`
+},
+{id:'WSOP-04', cat:'WSOP', title:'看診中助理流程', badge:'badge-wsop',
+ desc:'診前準備、診中配合、診後整理、各療程器械速查表',
+ content:`
+<h2>一、診前準備</h2>
+<ul class="checklist" id="chk-wsop04-1">
+<li><input type="checkbox"><label>確認今日療程預約清單（與前台核對）</label></li>
+<li><input type="checkbox"><label>依療程準備對應器械包</label></li>
+<li><input type="checkbox"><label>確認 X 光片已上傳至系統</label></li>
+<li><input type="checkbox"><label>準備當診耗材</label></li></ul>
+<h2>二、診中配合</h2>
+<ul>
+<li>雙手傳遞器械，正確方向朝向醫師</li>
+<li>預判醫師需求，下一步器械提前備妥</li>
+<li>吸唾器保持視野清晰</li>
+<li>適時安撫患者：「快好了，再一下下」</li></ul>
+<h2>三、各療程器械準備速查</h2>
+<table><tr><th>療程</th><th>器械包</th><th>特別耗材</th></tr>
+<tr><td>初診檢查</td><td>基本檢查包（探針、口鏡、鑷子）</td><td>X 光片</td></tr>
+<tr><td>洗牙</td><td>洗牙頭、拋棄式頭套</td><td>氟化物（視需要）</td></tr>
+<tr><td>補牙</td><td>充填器械組</td><td>樹脂色號、光固化燈</td></tr>
+<tr><td>根管治療</td><td>根管器械組、橡皮障</td><td>各號銼刀、沖洗液</td></tr>
+<tr><td>拔牙</td><td>拔牙鉗組、骨膜剝離器</td><td>局麻藥、縫線</td></tr>
+<tr><td>植牙</td><td>手術包、植牙器械盒</td><td>植體（確認規格）</td></tr>
+<tr><td>假牙黏著</td><td>黏著器械組</td><td>黏著劑、咬合紙</td></tr></table>
+<div class="callout callout-note"><div class="callout-title">🩺 角色守則</div>不做診斷、不承諾費用、不代替醫師說明——衛教以診所提供的衛教單為主。</div>`
+},
+{id:'WSOP-05', cat:'WSOP', title:'耗材盤點流程', badge:'badge-wsop',
+ desc:'每日補充、每週盤點、每月結算、植體逐批追蹤',
+ content:`
+<h2>耗材三層管控</h2>
+<table><tr><th>層級</th><th>對象</th><th>頻率</th></tr>
+<tr><td>每日補充</td><td>A 類高週轉消耗品</td><td>每日開診前 + 收診後</td></tr>
+<tr><td>每週盤點</td><td>A + B 類</td><td>每週一</td></tr>
+<tr><td>每月結算</td><td>全倉庫 A+B+C 類</td><td>每月最後工作日</td></tr></table>
+<h2>A 類每日確認項目（安全庫存）</h2>
+<table><tr><th>品項</th><th>最低安全庫存</th></tr>
+<tr><td>手套（各尺寸）</td><td>2 盒/尺寸</td></tr>
+<tr><td>棉捲</td><td>100 支</td></tr>
+<tr><td>吸管</td><td>各 50 支</td></tr>
+<tr><td>頭套</td><td>50 個</td></tr>
+<tr><td>局部麻醉藥</td><td>20 劑</td></tr>
+<tr><td>銳器桶</td><td>10 個/月</td></tr></table>
+<h2>植體特別管理</h2>
+<div class="callout callout-warn"><div class="callout-title">⚠ 植體逐批追蹤</div>每支植體入庫時記錄：品牌、型號、規格、批號、效期。植入後立即填入手術記錄單，批號需能對應回患者病歷日期。</div>
+<h2>月度耗材成本率</h2>
+<p>目標：耗材成本 / 月營收 ≤ <strong>10–15%</strong>，超出需查核異常品項。</p>`
+},
+{id:'WSOP-06', cat:'WSOP', title:'技工單處理流程', badge:'badge-wsop',
+ desc:'出貨、入貨核對、退件處理、逾期假牙管理',
+ content:`
+<h2>技工單生命週期</h2>
+<pre>確認需求 → 填寫技工單 → 準備模型/數位檔 → 打包出貨
+  ↓ 出貨登記 → 技工所製作 → 送回入貨
+  ↓ 核對品項 → 通知患者 → 試戴/裝戴 → 歸檔</pre>
+<h2>技工單必填欄位</h2>
+<table><tr><th>欄位</th><th>說明</th></tr>
+<tr><td>患者姓名 + 病歷號</td><td>確認唯一性</td></tr>
+<tr><td>製作品項</td><td>詳細描述（如：#14 PFM Crown，鈦合金底層）</td></tr>
+<tr><td>顏色/色號</td><td>使用 Vita 色卡，附照片更佳</td></tr>
+<tr><td>Implant Crown 特別注意</td><td>植體品牌、型號、掃描體型號、連接方式</td></tr>
+<tr><td>預計回件日期</td><td>與技工所確認後填寫</td></tr></table>
+<h2>入貨核對</h2>
+<ul class="checklist" id="chk-wsop06-1">
+<li><input type="checkbox"><label>患者姓名/病歷號正確</label></li>
+<li><input type="checkbox"><label>品項與技工單一致</label></li>
+<li><input type="checkbox"><label>顏色/色號符合要求</label></li>
+<li><input type="checkbox"><label>外觀無明顯瑕疵（裂縫、氣泡、邊緣不整）</label></li>
+<li><input type="checkbox"><label>技工所送件收據簽收存檔</label></li></ul>
+<h2>逾期假牙處理</h2>
+<table><tr><th>狀況</th><th>處理</th></tr>
+<tr><td>超過 30 天未取件</td><td>主動致電確認意願</td></tr>
+<tr><td>超過 3 個月未取件</td><td>通知院長，書面告知保存期限</td></tr></table>`
+},
+{id:'WSOP-07', cat:'WSOP', title:'緊急醫療處置 SOP', badge:'badge-wsop',
+ desc:'昏厥、過敏性休克、低血糖、高血壓危象、CPR 五大情境',
+ content:`
+<div class="callout callout-danger"><div class="callout-title">🚨 急救設備位置（開業前填入）</div>
+AED：＿＿＿＿ | 急救藥物箱：＿＿＿＿ | 最近急診室：＿＿＿＿（約 ＿＿ 分鐘）</div>
+<h2>情境一：血管迷走性昏厥（最常見）</h2>
+<p><strong>辨識</strong>：臉色蒼白、冒冷汗、噁心、脈搏微弱</p>
+<ul class="checklist" id="chk-wsop07-1">
+<li><input type="checkbox"><label>立即讓患者平躺，雙腳抬高</label></li>
+<li><input type="checkbox"><label>鬆開頸部及胸部衣物</label></li>
+<li><input type="checkbox"><label>意識清醒時提供糖分（糖果、果汁）</label></li>
+<li><input type="checkbox"><label>每 3–5 分鐘測量血壓、脈搏</label></li>
+<li><input type="checkbox"><label>通常 5–10 分鐘自行恢復，恢復後休息 15–30 分鐘</label></li></ul>
+<h2>情境二：過敏性休克（Anaphylaxis）</h2>
+<div class="callout callout-danger"><div class="callout-title">辨識：喉嚨緊縮、呼吸困難、低血壓、意識改變——三者之一即須立即處置</div></div>
+<ul class="checklist" id="chk-wsop07-2">
+<li><input type="checkbox"><label>立即呼叫 119</label></li>
+<li><input type="checkbox"><label>Epinephrine 0.3mg IM（大腿外側）立即注射</label></li>
+<li><input type="checkbox"><label>5–15 分鐘無改善可重複第二劑</label></li>
+<li><input type="checkbox"><label>給氧、監測生命徵象直到救護車到達</label></li></ul>
+<h2>情境三：低血糖</h2>
+<p><strong>有意識可吞嚥</strong>：給予 15–20g 糖分（果汁 150mL / 葡萄糖錠 4 粒）→ 等 15 分鐘重新評估</p>
+<p><strong>意識不清</strong>：立即呼叫 119，不可強迫口服，考慮 Glucagon 肌注</p>
+<h2>情境四：心臟驟停（CPR）</h2>
+<pre>呼叫 119 + 拿 AED（同時進行）
+  ↓
+C — 胸外按壓：深度 5cm，速率 100–120次/分，30:2
+A — 打開呼吸道（仰頭抬下巴）
+B — 人工呼吸（每次 1 秒）
+  ↓
+AED 到達 → 開機 → 貼電極片 → 分析 → 電擊
+  ↓
+持續 CPR 直到救護車到達</pre>
+<h2>角色分工</h2>
+<table><tr><th>角色</th><th>職責</th></tr>
+<tr><td>醫師</td><td>主導 CPR，指揮全程</td></tr>
+<tr><td>跟診助理 1</td><td>執行胸外按壓（輪替）</td></tr>
+<tr><td>跟診助理 2</td><td>拿 AED、操作 AED</td></tr>
+<tr><td>前台</td><td>打 119、清場候診區、引導救護車</td></tr></table>
+<div class="callout callout-tip"><div class="callout-title">💡 每半年模擬演練一次</div>隨機選定情境，計時從發現到正確處置的時間；確認每位員工知道急救設備位置；確認 AED 電極片、急救藥物效期。</div>`
+},
+{id:'WSOP-08', cat:'WSOP', title:'患者投訴處理 SOP', badge:'badge-wsop',
+ desc:'L1–L3 分級應對、線上負評回應格式、投訴記錄表',
+ content:`
+<h2>投訴分級</h2>
+<table><tr><th>等級</th><th>情境</th><th>處理人</th></tr>
+<tr><td>L1：一般抱怨</td><td>等太久、費用疑問、態度不滿</td><td>前台助理</td></tr>
+<tr><td>L2：服務糾紛</td><td>療效不如預期、要求重做或退費</td><td>診所主管</td></tr>
+<tr><td>L3：醫療糾紛</td><td>疑似醫療疏失、身體傷害、法律威脅</td><td>院長 + 法律顧問</td></tr></table>
+<h2>L1 黃金原則</h2>
+<div class="callout callout-tip"><div class="callout-title">先處理情緒，再處理問題</div>
+1. 不爭辯：「您說得對，這讓您感到不方便，非常抱歉。」<br>
+2. 引導至私下空間：「方便請您到這邊，我們找個地方好好聊聊。」<br>
+3. 傾聽完整，不中途打斷<br>
+4. 確認核心訴求<br>
+5. 結尾：「感謝您告訴我們，這對我們改善服務非常重要。」</div>
+<h2>L3 醫療糾紛第一原則</h2>
+<div class="callout callout-danger"><div class="callout-title">🚨 不承認疏失、不當場退費、不在情緒激動時做任何承諾</div></div>
+<ul class="checklist" id="chk-wsop08-1">
+<li><input type="checkbox"><label>完整保存所有相關病歷、X 光、知情同意書（不得修改）</label></li>
+<li><input type="checkbox"><label>聯繫診所法律顧問或牙醫師公會調解委員會</label></li>
+<li><input type="checkbox"><label>必要時啟動醫療責任保險理賠程序</label></li></ul>
+<h2>線上負評標準回覆</h2>
+<div class="callout callout-note"><div class="callout-title">📋 複製使用</div>感謝您的回饋。<br>我們對您的體驗感到非常遺憾，患者的感受對我們來說非常重要。由於診療相關細節涉及個人隱私，我們無法在此詳述，但非常歡迎您直接與我們聯繫，我們會認真傾聽並盡力協助解決。<br>[診所名稱] 敬上</div>`
+},
+{id:'WSOP-09', cat:'WSOP', title:'自費療程諮詢流程', badge:'badge-wsop',
+ desc:'植牙/矯正/美學話術、費用說明結構、30天追蹤機制',
+ content:`
+<div class="callout callout-note"><div class="callout-title">💡 核心心態</div>不是推銷，是衛教。讓患者理解需求、主動決定。核心是教育，不是說服。</div>
+<h2>植牙諮詢三步驟</h2>
+<h3>Step 1：建立問題意識</h3>
+<div class="callout callout-tip"><div class="callout-title">話術參考</div>「您的 X 光片顯示 #XX 號牙齒缺牙已經 X 年了，您有沒有發現旁邊的牙齒好像有點往這邊傾斜？長期下來對咬合和骨頭都會有影響。」</div>
+<h3>Step 2：說明選項（不只推植牙）</h3>
+<table><tr><th>選項</th><th>優點</th><th>缺點</th></tr>
+<tr><td>活動假牙</td><td>費用最低</td><td>舒適度與功能有限</td></tr>
+<tr><td>牙橋</td><td>固定式，功能較好</td><td>需要磨鄰牙</td></tr>
+<tr><td>植牙</td><td>最接近天然牙，長期維護成本最低</td><td>費用較高，需手術</td></tr></table>
+<h3>Step 3：費用交給前台說明</h3>
+<p>醫師不報價：「費用部分我請前台同事為您說明」→ 前台提供書面估價單</p>
+<h2>費用說明話術</h2>
+<table><tr><th>情境</th><th>話術</th></tr>
+<tr><td>患者說「太貴了」</td><td>「我理解，這確實是一筆費用。醫師推薦這個療程是因為 [臨床理由]。」</td></tr>
+<tr><td>患者說「再考慮看看」</td><td>「完全沒問題。我可以把今天的說明整理成文字傳給您。」→ 立即傳送衛教資料</td></tr></table>
+<h2>追蹤節點（最多 3 次）</h2>
+<table><tr><th>時間點</th><th>動作</th></tr>
+<tr><td>諮詢後 3 天</td><td>傳送衛教資料</td></tr>
+<tr><td>諮詢後 7 天</td><td>主動詢問是否有問題</td></tr>
+<tr><td>諮詢後 30 天</td><td>最後一次追蹤</td></tr>
+<tr><td>30 天後無回應</td><td>停止主動追蹤，待患者自行回診時再提起</td></tr></table>`
+},
+{id:'WSOP-10', cat:'WSOP', title:'月度財務管理 SOP', badge:'badge-wsop',
+ desc:'每日對帳、月度損益、現金流備用金、異常警示',
+ content:`
+<h2>月度財務日曆</h2>
+<table><tr><th>日期</th><th>事項</th></tr>
+<tr><td>每日</td><td>當日收費核對、帳務差異記錄</td></tr>
+<tr><td>次月 5 日前</td><td>健保申報送件</td></tr>
+<tr><td>次月 10 日前</td><td>薪資計算、發薪</td></tr>
+<tr><td>次月 15 日前</td><td>財務報表呈報院長</td></tr></table>
+<h2>核心業績指標</h2>
+<table><tr><th>指標</th><th>計算方式</th><th>目標值</th></tr>
+<tr><td>月總營收</td><td>健保申報 + 自費實收</td><td>NT$＿＿萬</td></tr>
+<tr><td>自費佔比</td><td>自費 / 總營收</td><td>≥ 30%（新診所）</td></tr>
+<tr><td>回診率</td><td>回診人數 / 上月預約回診總數</td><td>≥ 70%</td></tr>
+<tr><td>耗材成本率</td><td>耗材成本 / 月營收</td><td>≤ 12%</td></tr>
+<tr><td>人事費用率</td><td>薪資總額 / 月營收</td><td>≤ 35%</td></tr>
+<tr><td>總成本率</td><td>所有支出 / 月營收</td><td>≤ 70%</td></tr></table>
+<h2>月度簡易損益表</h2>
+<pre>月總營收                          NT$______
+  健保申報（點數 × 點值）         NT$______
+  自費收入                         NT$______
+
+月總支出                           NT$______
+  薪資（含勞健保）                 NT$______
+  耗材費用                         NT$______
+  技工費                           NT$______
+  租金                             NT$______
+  設備折舊                         NT$______
+─────────────────────────────
+稅前淨利                          NT$______
+淨利率                            _______%</pre>
+<h2>異常警示（立即通報院長）</h2>
+<table><tr><th>警示條件</th><th>說明</th></tr>
+<tr><td>當月淨利率 &lt; 0%</td><td>當月虧損，需立即檢討</td></tr>
+<tr><td>現金餘額 &lt; 2 個月固定支出</td><td>流動性風險</td></tr>
+<tr><td>耗材成本率 &gt; 20%</td><td>嚴重超標，查核浪費或盜用</td></tr>
+<tr><td>健保申報核刪率 &gt; 10%</td><td>申報品質問題</td></tr></table>`
+},
+// CK
+{id:'CK-01', cat:'CK', title:'早班開診 Checklist', badge:'badge-ck',
+ desc:'每日早班前台 + 跟診助理核查表',
+ content:`
+<p><strong>日期：</strong>＿＿＿＿ &nbsp; <strong>執行人：</strong>＿＿＿＿ &nbsp; <strong>主管確認：</strong>＿＿＿＿</p>
+<h2>前台（09:30 到診）</h2>
+<ul class="checklist" id="chk-ck01-1">
+<li><input type="checkbox"><label>打卡到班</label></li>
+<li><input type="checkbox"><label>電腦開機，掛號系統登入</label></li>
+<li><input type="checkbox"><label>確認當日預約班表</label></li>
+<li><input type="checkbox"><label>前台桌面整理、收費台就緒</label></li>
+<li><input type="checkbox"><label>候診區椅面擦拭</label></li>
+<li><input type="checkbox"><label>飲水機確認（有水、有杯子）</label></li>
+<li><input type="checkbox"><label>廁所確認（衛生紙、洗手乳）</label></li>
+<li><input type="checkbox"><label>未回覆的訊息/電話處理</label></li></ul>
+<h2>跟診助理（09:30 到診）</h2>
+<ul class="checklist" id="chk-ck01-2">
+<li><input type="checkbox"><label>打卡到班</label></li>
+<li><input type="checkbox"><label>診療室地面清潔</label></li>
+<li><input type="checkbox"><label>治療椅消毒擦拭（椅面、扶手、燈桿）</label></li>
+<li><input type="checkbox"><label>昨日滅菌包取出備用</label></li>
+<li><input type="checkbox"><label>依當日療程準備器械包</label></li>
+<li><input type="checkbox"><label>診療台耗材補充（紙巾、棉捲、頭套、吸管）</label></li>
+<li><input type="checkbox"><label>X 光設備開機暖機</label></li></ul>
+<h2>共同確認（09:55）</h2>
+<ul class="checklist" id="chk-ck01-3">
+<li><input type="checkbox"><label>空調、燈光開啟</label></li>
+<li><input type="checkbox"><label>空壓機開啟、確認氣壓正常</label></li>
+<li><input type="checkbox"><label>今日有手術者：手術同意書確認</label></li>
+<li><input type="checkbox"><label>診所大門解鎖（10:00）</label></li></ul>`
+},
+{id:'CK-02', cat:'CK', title:'晚班收診 Checklist', badge:'badge-ck',
+ desc:'每日晚班帳務、器械、設備關閉核查表',
+ content:`
+<p><strong>日期：</strong>＿＿＿＿ &nbsp; <strong>執行人：</strong>＿＿＿＿ &nbsp; <strong>主管確認：</strong>＿＿＿＿</p>
+<h2>帳務</h2>
+<ul class="checklist" id="chk-ck02-1">
+<li><input type="checkbox"><label>當日收費明細列印</label></li>
+<li><input type="checkbox"><label>現金核對（差異：＿＿＿＿）</label></li>
+<li><input type="checkbox"><label>現金放入保險箱</label></li>
+<li><input type="checkbox"><label>交班單填寫完成</label></li></ul>
+<h2>前台行政</h2>
+<ul class="checklist" id="chk-ck02-2">
+<li><input type="checkbox"><label>隔日預約班表確認</label></li>
+<li><input type="checkbox"><label>技工單確認（今日送/取件記錄）</label></li>
+<li><input type="checkbox"><label>術後追蹤訊息傳送（有手術患者）</label></li>
+<li><input type="checkbox"><label>交班記錄填寫</label></li></ul>
+<h2>跟診助理</h2>
+<ul class="checklist" id="chk-ck02-3">
+<li><input type="checkbox"><label>所有器械回收，針頭入銳器桶</label></li>
+<li><input type="checkbox"><label>器械清洗 → 超音波 → 擦乾 → 裝包</label></li>
+<li><input type="checkbox"><label>滅菌鍋啟動（貼日期標籤）</label></li>
+<li><input type="checkbox"><label>治療椅全面消毒</label></li>
+<li><input type="checkbox"><label>耗材補充至明日所需量</label></li>
+<li><input type="checkbox"><label>銳器桶確認（未超過八分滿）</label></li></ul>
+<h2>設備關閉（最後離開者）</h2>
+<ul class="checklist" id="chk-ck02-4">
+<li><input type="checkbox"><label>X 光設備關機</label></li>
+<li><input type="checkbox"><label>空壓機關閉（確認洩壓）</label></li>
+<li><input type="checkbox"><label>所有診療椅關機</label></li>
+<li><input type="checkbox"><label>電腦系統登出關機</label></li>
+<li><input type="checkbox"><label>空調、燈光全關</label></li>
+<li><input type="checkbox"><label>門窗鎖好，打卡、關大門上鎖</label></li></ul>`
+},
+{id:'CK-03', cat:'CK', title:'手術前準備 Checklist', badge:'badge-ck',
+ desc:'術前行政、環境、器械、麻醉、Time Out 確認',
+ content:`
+<p><strong>日期：</strong>＿＿＿＿ &nbsp; <strong>患者：</strong>＿＿＿＿ &nbsp; <strong>術式：</strong>＿＿＿＿ &nbsp; <strong>醫師：</strong>＿＿＿＿</p>
+<h2>術前行政（前一日完成）</h2>
+<ul class="checklist" id="chk-ck03-1">
+<li><input type="checkbox"><label>手術同意書已簽署並存入病歷</label></li>
+<li><input type="checkbox"><label>確認患者術前醫囑已告知</label></li>
+<li><input type="checkbox"><label>患者過敏史與系統性疾病已記錄</label></li>
+<li><input type="checkbox"><label>影像資料就緒（CBCT / OPG 已上傳）</label></li>
+<li><input type="checkbox"><label>植體/骨粉規格已確認備齊（核對品牌、型號、規格）</label></li></ul>
+<h2>植牙手術器械</h2>
+<ul class="checklist" id="chk-ck03-2">
+<li><input type="checkbox"><label>植牙手術包（骨膜剝離器、拉鉤、植牙鑽針組）</label></li>
+<li><input type="checkbox"><label>植牙馬達 + 扭力板手</label></li>
+<li><input type="checkbox"><label>衝洗用生理食鹽水 + 沖洗針筒</label></li>
+<li><input type="checkbox"><label>植體（核對：品牌 / 型號 / 直徑 / 長度 / 批號）</label></li>
+<li><input type="checkbox"><label>縫線（依醫師習慣）</label></li>
+<li><input type="checkbox"><label>手術紀錄單（填寫患者姓名、植體批號欄位）</label></li></ul>
+<h2>麻醉準備</h2>
+<ul class="checklist" id="chk-ck03-3">
+<li><input type="checkbox"><label>確認麻醉藥物與患者無過敏</label></li>
+<li><input type="checkbox"><label>表面麻醉劑塗佈棉棒備妥</label></li>
+<li><input type="checkbox"><label>確認患者無服用抗凝血藥物</label></li></ul>
+<h2>急救設備確認</h2>
+<ul class="checklist" id="chk-ck03-4">
+<li><input type="checkbox"><label>AED 電源確認，電極片在效期內</label></li>
+<li><input type="checkbox"><label>急救藥物箱：Epinephrine 位置確認</label></li></ul>
+<h2>醫師術前 Time Out（切開前執行）</h2>
+<div class="callout callout-danger"><div class="callout-title">🔴 切開前口頭確認（醫師 + 助理共同）</div></div>
+<ul class="checklist" id="chk-ck03-5">
+<li><input type="checkbox"><label>患者身份：姓名、生日核對</label></li>
+<li><input type="checkbox"><label>手術部位：正確牙位（L / R 確認）</label></li>
+<li><input type="checkbox"><label>術式確認：今日預計執行的手術</label></li>
+<li><input type="checkbox"><label>植體規格（如適用）：品牌、型號、直徑、長度</label></li>
+<li><input type="checkbox"><label>過敏史：麻醉藥、抗生素</label></li>
+<li><input type="checkbox"><label>特殊注意事項：糖尿病、抗凝血藥、骨質疏鬆</label></li></ul>`
+}
+];
+
+// ── Navigation ──────────────────────────────────────────────────
+const CATS = {
+  home: { label: '首頁', icon: '🏠' },
+  PRE:  { label: '開業前期 PRE', icon: '📋' },
+  QM:   { label: '管理手冊 QM', icon: '📖' },
+  QP:   { label: '人員管理 QP', icon: '👥' },
+  WSOP: { label: '各站流程 WSOP', icon: '⚙️' },
+  CK:   { label: '日常 Checklist', icon: '✅' }
+};
+
+function buildNav() {
+  const tree = document.getElementById('nav-tree');
+  const grouped = {};
+  DOCS.forEach(d => {
+    if (!grouped[d.cat]) grouped[d.cat] = [];
+    grouped[d.cat].push(d);
+  });
+  Object.entries(CATS).forEach(([cat, info]) => {
+    if (!grouped[cat]) return;
+    const sec = document.createElement('div');
+    sec.className = 'nav-section';
+    if (cat !== 'home') {
+      const t = document.createElement('div');
+      t.className = 'nav-section-title';
+      t.textContent = info.icon + ' ' + info.label;
+      sec.appendChild(t);
+    }
+    grouped[cat].forEach(d => {
+      const item = document.createElement('div');
+      item.className = 'nav-item' + (d.id === 'HOME' ? ' active' : '');
+      item.dataset.id = d.id;
+      item.innerHTML = `<span style="flex:1;overflow:hidden;text-overflow:ellipsis">${d.id === 'HOME' ? '🏠 文件總覽' : d.title}</span>` +
+        (d.badge ? `<span class="tag">${d.id}</span>` : '');
+      item.onclick = () => navigate(d.id);
+      sec.appendChild(item);
+    });
+    tree.appendChild(sec);
+  });
+}
+
+function navigate(id) {
+  document.querySelectorAll('.nav-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.id === id);
+  });
+  const doc = DOCS.find(d => d.id === id);
+  document.getElementById('doc-title').textContent = id === 'HOME' ? '文件總覽' : `${id} — ${doc.title}`;
+  const content = document.getElementById('content');
+  if (id === 'HOME') {
+    renderHome(content);
+  } else {
+    renderDoc(content, doc);
+  }
+  window.scrollTo(0, 0);
+}
+
+function renderHome(el) {
+  const cats = ['PRE','QM','QP','WSOP','CK'];
+  const counts = {};
+  cats.forEach(c => counts[c] = DOCS.filter(d => d.cat === c).length);
+  el.innerHTML = `
+  <div class="home-hero">
+    <h1>🦷 牙科診所 SOP 文件系統</h1>
+    <p>從開業申請到日常營運的完整標準作業程序，共 ${DOCS.length - 1} 份文件，涵蓋法規、人員、流程、財務、緊急應對等各面向。</p>
+  </div>
+  <div class="home-stats">
+    <div class="stat-card"><div class="stat-num">${DOCS.length - 1}</div><div class="stat-label">總文件數</div></div>
+    ${cats.map(c => `<div class="stat-card"><div class="stat-num">${counts[c]}</div><div class="stat-label">${CATS[c].label.split(' ')[0]}</div></div>`).join('')}
+  </div>
+  ${cats.map(cat => `
+  <div class="section-header">${CATS[cat].icon} ${CATS[cat].label}</div>
+  <div class="doc-grid">
+    ${DOCS.filter(d => d.cat === cat).map(d => `
+    <div class="doc-card" onclick="navigate('${d.id}')">
+      <div class="doc-card-id"><span class="badge ${d.badge}">${d.id}</span></div>
+      <div class="doc-card-title">${d.title}</div>
+      <div class="doc-card-desc">${d.desc}</div>
+    </div>`).join('')}
+  </div>`).join('')}`;
+}
+
+function renderDoc(el, doc) {
+  el.innerHTML = `<div class="doc">
+    <h1>${doc.id} — ${doc.title}</h1>
+    <div class="meta">
+      <span><span class="badge ${doc.badge}">${doc.cat}</span></span>
+      <span>版本 v1.0</span>
+      <span>2026-06-28</span>
+    </div>
+    ${doc.content || '<p>內容整理中…</p>'}
+  </div>`;
+  loadChecks(doc.id);
+}
+
+// ── Checklist persistence ────────────────────────────────────────
+function loadChecks(docId) {
+  const saved = JSON.parse(localStorage.getItem('checks_' + docId) || '{}');
+  document.querySelectorAll('input[type=checkbox]').forEach((cb, i) => {
+    cb.id = 'cb_' + docId + '_' + i;
+    const lbl = cb.nextElementSibling;
+    if (lbl) lbl.setAttribute('for', cb.id);
+    if (saved[i]) cb.checked = true;
+    cb.onchange = () => saveChecks(docId);
+  });
+}
+
+function saveChecks(docId) {
+  const state = {};
+  document.querySelectorAll('input[type=checkbox]').forEach((cb, i) => {
+    if (cb.checked) state[i] = true;
+  });
+  localStorage.setItem('checks_' + docId, JSON.stringify(state));
+}
+
+function resetChecks() {
+  const active = document.querySelector('.nav-item.active');
+  if (!active) return;
+  const docId = active.dataset.id;
+  localStorage.removeItem('checks_' + docId);
+  document.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+}
+
+// ── Search ───────────────────────────────────────────────────────
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-item').forEach(el => {
+    const text = el.textContent.toLowerCase();
+    el.style.display = (!q || text.includes(q)) ? '' : 'none';
+  });
+}
+
+// ── Mobile ───────────────────────────────────────────────────────
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// ── Init ─────────────────────────────────────────────────────────
+buildNav();
+navigate('HOME');
+</script>
+</body>
+</html>
