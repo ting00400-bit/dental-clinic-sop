@@ -6,19 +6,24 @@
 <title>牙科診所 SOP 文件系統</title>
 <style>
 :root {
-  --primary: #0f6cbf;
-  --primary-dark: #0a4f91;
-  --primary-light: #e8f2fc;
-  --accent: #17a589;
-  --accent-light: #e8f6f3;
-  --warn: #e67e22;
-  --warn-light: #fef5e7;
-  --danger: #c0392b;
-  --danger-light: #fdedec;
-  --text: #2c3e50;
-  --text-muted: #7f8c8d;
-  --border: #dde3e9;
-  --bg: #f5f7fa;
+  --primary: #2D4A55;
+  --primary-dark: #162028;
+  --primary-light: #EBF4F6;
+  --primary-soft: #3A5562;
+  --accent: #E8001C;
+  --accent-light: #FFF0F0;
+  --warn: #C47D00;
+  --warn-light: #FFF8E6;
+  --danger: #E8001C;
+  --danger-light: #FFF0F0;
+  --muted: #7A98A4;
+  --handle: #AABFC7;
+  --panel: #EBF4F6;
+  --panel-strong: #C9DDE2;
+  --text: #162028;
+  --text-muted: #7A98A4;
+  --border: rgba(45,74,85,0.18);
+  --bg: #FAFAFA;
   --sidebar-w: 280px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,25 +32,25 @@ body { font-family: -apple-system, "Noto Sans TC", sans-serif; color: var(--text
 /* ── Sidebar ── */
 #sidebar {
   width: var(--sidebar-w); min-width: var(--sidebar-w);
-  background: #1a2332; color: #c8d6e5;
+  background: var(--primary-dark); color: var(--handle);
   display: flex; flex-direction: column;
   position: fixed; top: 0; left: 0; height: 100vh;
   overflow-y: auto; z-index: 100;
 }
-#sidebar-header { padding: 20px 18px 14px; border-bottom: 1px solid #2d3f55; }
+#sidebar-header { padding: 20px 18px 14px; border-bottom: 1px solid rgba(170,191,199,0.2); }
 #sidebar-header h1 { font-size: 15px; color: #fff; font-weight: 700; line-height: 1.4; }
-#sidebar-header p { font-size: 11px; color: #7f9ab5; margin-top: 4px; }
-#search-wrap { padding: 12px 14px; border-bottom: 1px solid #2d3f55; }
-#search { width: 100%; padding: 7px 10px; border-radius: 6px; border: 1px solid #2d3f55; background: #243144; color: #c8d6e5; font-size: 13px; outline: none; }
-#search::placeholder { color: #5d7a96; }
-#search:focus { border-color: var(--primary); }
-.nav-section { padding: 8px 0; border-bottom: 1px solid #2d3f55; }
-.nav-section-title { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; color: #5d7a96; padding: 6px 16px 4px; text-transform: uppercase; }
-.nav-item { display: flex; align-items: center; gap: 8px; padding: 7px 16px; cursor: pointer; font-size: 13px; color: #a0b4c8; border-left: 3px solid transparent; transition: all .15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.nav-item:hover { background: #243144; color: #fff; }
-.nav-item.active { background: #1e3a5f; color: #fff; border-left-color: var(--primary); }
-.nav-item .tag { font-size: 10px; padding: 1px 5px; border-radius: 3px; background: #2d3f55; color: #7f9ab5; flex-shrink: 0; margin-left: auto; }
-.nav-item.active .tag { background: var(--primary); color: #fff; }
+#sidebar-header p { font-size: 11px; color: var(--muted); margin-top: 4px; }
+#search-wrap { padding: 12px 14px; border-bottom: 1px solid rgba(170,191,199,0.2); }
+#search { width: 100%; padding: 7px 10px; border-radius: 6px; border: 1px solid rgba(170,191,199,0.2); background: rgba(45,74,85,0.6); color: var(--handle); font-size: 13px; outline: none; }
+#search::placeholder { color: var(--muted); }
+#search:focus { border-color: var(--panel-strong); }
+.nav-section { padding: 8px 0; border-bottom: 1px solid rgba(170,191,199,0.12); }
+.nav-section-title { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; color: var(--muted); padding: 6px 16px 4px; text-transform: uppercase; }
+.nav-item { display: flex; align-items: center; gap: 8px; padding: 7px 16px; cursor: pointer; font-size: 13px; color: var(--handle); border-left: 3px solid transparent; transition: all .15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nav-item:hover { background: rgba(45,74,85,0.5); color: #fff; }
+.nav-item.active { background: var(--primary-soft); color: #fff; border-left-color: var(--accent); }
+.nav-item .tag { font-size: 10px; padding: 1px 5px; border-radius: 3px; background: rgba(45,74,85,0.6); color: var(--muted); flex-shrink: 0; margin-left: auto; }
+.nav-item.active .tag { background: var(--accent); color: #fff; }
 
 /* ── Main ── */
 #main { margin-left: var(--sidebar-w); flex: 1; min-height: 100vh; }
@@ -61,7 +66,7 @@ body { font-family: -apple-system, "Noto Sans TC", sans-serif; color: var(--text
 .doc h1 { font-size: 26px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
 .doc .meta { font-size: 12px; color: var(--text-muted); margin-bottom: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
 .doc .meta span { background: var(--bg); padding: 2px 8px; border-radius: 4px; }
-.doc h2 { font-size: 18px; font-weight: 700; color: var(--primary-dark); margin: 28px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--primary-light); }
+.doc h2 { font-size: 18px; font-weight: 700; color: var(--primary); margin: 28px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--panel-strong); }
 .doc h3 { font-size: 15px; font-weight: 700; color: var(--text); margin: 20px 0 8px; }
 .doc p { line-height: 1.8; margin-bottom: 10px; }
 .doc ul, .doc ol { padding-left: 22px; margin-bottom: 12px; }
@@ -69,49 +74,49 @@ body { font-family: -apple-system, "Noto Sans TC", sans-serif; color: var(--text
 .doc table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 14px; }
 .doc th { background: var(--primary); color: #fff; padding: 9px 12px; text-align: left; font-weight: 600; }
 .doc td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
-.doc tr:nth-child(even) td { background: var(--primary-light); }
+.doc tr:nth-child(even) td { background: var(--panel); }
 .doc code { background: #f0f3f7; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 13px; }
 .doc pre { background: #1a2332; color: #a8c7e8; padding: 16px 20px; border-radius: 8px; margin: 14px 0; overflow-x: auto; font-size: 13px; line-height: 1.7; }
 
 /* Callouts */
 .callout { border-radius: 8px; padding: 14px 16px; margin: 16px 0; border-left: 4px solid; }
-.callout-note { background: var(--primary-light); border-color: var(--primary); }
+.callout-note { background: var(--panel); border-color: var(--primary); }
 .callout-warn { background: var(--warn-light); border-color: var(--warn); }
-.callout-danger { background: var(--danger-light); border-color: var(--danger); }
-.callout-tip { background: var(--accent-light); border-color: var(--accent); }
+.callout-danger { background: var(--accent-light); border-color: var(--accent); }
+.callout-tip { background: var(--panel); border-color: var(--panel-strong); }
 .callout-title { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
-.callout-note .callout-title { color: var(--primary-dark); }
+.callout-note .callout-title { color: var(--primary); }
 .callout-warn .callout-title { color: var(--warn); }
-.callout-danger .callout-title { color: var(--danger); }
-.callout-tip .callout-title { color: var(--accent); }
+.callout-danger .callout-title { color: var(--accent); }
+.callout-tip .callout-title { color: var(--primary-soft); }
 
 /* Checklist */
 .checklist { list-style: none; padding: 0; margin: 12px 0 18px; }
 .checklist li { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; font-size: 14.5px; line-height: 1.6; border-bottom: 1px solid #f0f3f7; }
 .checklist li:last-child { border-bottom: none; }
-.checklist input[type=checkbox] { width: 16px; height: 16px; margin-top: 3px; accent-color: var(--primary); flex-shrink: 0; cursor: pointer; }
+.checklist input[type=checkbox] { width: 16px; height: 16px; margin-top: 3px; accent-color: var(--accent); flex-shrink: 0; cursor: pointer; }
 .checklist label { cursor: pointer; }
 .checklist input:checked + label { text-decoration: line-through; color: var(--text-muted); }
 
 /* Badge */
 .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 700; }
-.badge-pre { background: #fdebd0; color: #784212; }
-.badge-qm { background: #d5f5e3; color: #1a5276; }
-.badge-qp { background: #d6eaf8; color: #1a5276; }
-.badge-wsop { background: #e8daef; color: #6c3483; }
-.badge-ck { background: #fdfefe; color: #2c3e50; border: 1px solid #dde3e9; }
+.badge-pre { background: var(--panel-strong); color: var(--primary-dark); }
+.badge-qm  { background: var(--primary); color: #fff; }
+.badge-qp  { background: var(--primary-soft); color: #fff; }
+.badge-wsop{ background: var(--primary-dark); color: var(--handle); }
+.badge-ck  { background: var(--accent); color: #fff; }
 
 /* Home page */
-.home-hero { background: linear-gradient(135deg, var(--primary-dark) 0%, #1a6fa8 100%); color: #fff; padding: 40px 32px; border-radius: 12px; margin-bottom: 28px; }
+.home-hero { background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); color: #fff; padding: 40px 32px; border-radius: 12px; margin-bottom: 28px; }
 .home-hero h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
 .home-hero p { opacity: .85; font-size: 15px; line-height: 1.7; }
 .home-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 28px; }
 .stat-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 18px; text-align: center; }
-.stat-num { font-size: 32px; font-weight: 800; color: var(--primary); }
+.stat-num { font-size: 32px; font-weight: 800; color: var(--primary-soft); }
 .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 .doc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .doc-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 16px; cursor: pointer; transition: all .15s; }
-.doc-card:hover { border-color: var(--primary); box-shadow: 0 2px 12px rgba(15,108,191,.1); transform: translateY(-1px); }
+.doc-card:hover { border-color: var(--primary); box-shadow: 0 2px 12px rgba(45,74,85,.12); transform: translateY(-1px); }
 .doc-card-id { font-size: 11px; color: var(--text-muted); font-weight: 700; letter-spacing: .5px; }
 .doc-card-title { font-size: 14px; font-weight: 700; margin: 4px 0; }
 .doc-card-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
@@ -438,10 +443,10 @@ const DOCS = [
 <div class="callout callout-note"><div class="callout-title">💡 核心觀念</div>醫師當然要有專業，但又不能只有醫療專業。</div>
 <h2>SOP 文件層級</h2>
 <div class="pyramid">
-<div class="pyramid-row"><div class="pyramid-block" style="background:#1a5276;width:180px">QM 管理手冊</div></div>
-<div class="pyramid-row"><div class="pyramid-block" style="background:#1a6fa8;width:260px">QP 人員管理作業程序</div></div>
-<div class="pyramid-row"><div class="pyramid-block" style="background:#2e86c1;width:340px">WSOP 各站工作程序</div></div>
-<div class="pyramid-row"><div class="pyramid-block" style="background:#5dade2;width:420px">CK 日常 Checklist + 再考核表</div></div>
+<div class="pyramid-row"><div class="pyramid-block" style="background:#162028;width:180px">QM 管理手冊</div></div>
+<div class="pyramid-row"><div class="pyramid-block" style="background:#2D4A55;width:260px">QP 人員管理作業程序</div></div>
+<div class="pyramid-row"><div class="pyramid-block" style="background:#3A5562;width:340px">WSOP 各站工作程序</div></div>
+<div class="pyramid-row"><div class="pyramid-block" style="background:#7A98A4;width:420px">CK 日常 Checklist + 再考核表</div></div>
 </div>`
 },
 // QP
