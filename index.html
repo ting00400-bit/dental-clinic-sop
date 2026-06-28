@@ -6,25 +6,24 @@
 <title>牙科診所 SOP 文件系統</title>
 <style>
 :root {
-  --primary: #2D4A55;
-  --primary-dark: #162028;
-  --primary-light: #F0F8FA;
-  --primary-soft: #3A5562;
-  --accent: #E8001C;
+  --primary: #4A7A85;
+  --primary-dark: #2D5560;
+  --primary-light: #DFF1F1;
+  --primary-soft: #5A8A95;
+  --accent: #FF0000;
   --accent-light: #FFF0F0;
   --warn: #C47D00;
   --warn-light: #FFF8E6;
-  --danger: #E8001C;
+  --danger: #FF0000;
   --danger-light: #FFF0F0;
-  --muted: #7A98A4;
-  --handle: #AABFC7;
-  --panel: #F0F8FA;
-  --panel-strong: #D6EBEF;
-  --text: #162028;
-  --text-muted: #7A98A4;
-  --border: rgba(45,74,85,0.14);
-  --bg: #FFFFFF;
-  --sidebar-bg: #3A7A90;
+  --muted: #8AACB4;
+  --handle: #BBD5DA;
+  --panel: #DFF1F1;
+  --panel-strong: #BBD5DA;
+  --text: #1E3A42;
+  --text-muted: #6A8A92;
+  --border: rgba(187,213,218,0.7);
+  --bg: #F5F5F5;
   --sidebar-w: 280px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,13 +36,13 @@ body { font-family: -apple-system, "Noto Sans TC", sans-serif; color: var(--text
   display: flex; flex-direction: column;
   position: fixed; top: 0; left: 0; height: 100vh;
   overflow-y: auto; z-index: 100;
-  border-right: 1px solid var(--border);
+  border-right: 1px solid var(--panel-strong);
 }
 #sidebar-header { padding: 22px 18px 16px; border-bottom: 1px solid var(--border); }
 #sidebar-header h1 { font-size: 14px; color: var(--text); font-weight: 700; line-height: 1.5; }
 #sidebar-header p { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
 #search-wrap { padding: 10px 14px; border-bottom: 1px solid var(--border); }
-#search { width: 100%; padding: 7px 10px; border-radius: 6px; border: 1px solid var(--border); background: #f5f7f9; color: var(--text); font-size: 13px; outline: none; }
+#search { width: 100%; padding: 7px 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 13px; outline: none; }
 #search::placeholder { color: var(--text-muted); }
 #search:focus { border-color: var(--primary); background: #fff; }
 .nav-section { padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
