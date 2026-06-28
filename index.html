@@ -33,24 +33,25 @@ body { font-family: -apple-system, "Noto Sans TC", sans-serif; color: var(--text
 /* ── Sidebar ── */
 #sidebar {
   width: var(--sidebar-w); min-width: var(--sidebar-w);
-  background: var(--sidebar-bg); color: #e8f4f7;
+  background: #fff; color: var(--text);
   display: flex; flex-direction: column;
   position: fixed; top: 0; left: 0; height: 100vh;
   overflow-y: auto; z-index: 100;
+  border-right: 1px solid var(--border);
 }
-#sidebar-header { padding: 20px 18px 14px; border-bottom: 1px solid rgba(255,255,255,0.2); }
-#sidebar-header h1 { font-size: 15px; color: #fff; font-weight: 700; line-height: 1.4; }
-#sidebar-header p { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 4px; }
-#search-wrap { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.15); }
-#search { width: 100%; padding: 7px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.25); background: rgba(0,0,0,0.15); color: #fff; font-size: 13px; outline: none; }
-#search::placeholder { color: rgba(255,255,255,0.55); }
-#search:focus { border-color: rgba(255,255,255,0.6); }
-.nav-section { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.nav-section-title { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; color: rgba(255,255,255,0.6); padding: 6px 16px 4px; text-transform: uppercase; }
-.nav-item { display: flex; align-items: center; gap: 8px; padding: 7px 16px; cursor: pointer; font-size: 13px; color: rgba(255,255,255,0.88); border-left: 3px solid transparent; transition: all .15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.nav-item:hover { background: rgba(0,0,0,0.15); color: #fff; }
-.nav-item.active { background: rgba(0,0,0,0.22); color: #fff; border-left-color: var(--accent); }
-.nav-item .tag { font-size: 10px; padding: 1px 5px; border-radius: 3px; background: rgba(0,0,0,0.2); color: rgba(255,255,255,0.7); flex-shrink: 0; margin-left: auto; }
+#sidebar-header { padding: 22px 18px 16px; border-bottom: 1px solid var(--border); }
+#sidebar-header h1 { font-size: 14px; color: var(--text); font-weight: 700; line-height: 1.5; }
+#sidebar-header p { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+#search-wrap { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+#search { width: 100%; padding: 7px 10px; border-radius: 6px; border: 1px solid var(--border); background: #f5f7f9; color: var(--text); font-size: 13px; outline: none; }
+#search::placeholder { color: var(--text-muted); }
+#search:focus { border-color: var(--primary); background: #fff; }
+.nav-section { padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+.nav-section-title { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; color: var(--muted); padding: 6px 16px 4px; text-transform: uppercase; }
+.nav-item { display: flex; align-items: center; gap: 8px; padding: 7px 16px; cursor: pointer; font-size: 13px; color: var(--text); border-left: 3px solid transparent; transition: all .15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nav-item:hover { background: var(--panel); color: var(--primary); }
+.nav-item.active { background: var(--primary-light); color: var(--primary); border-left-color: var(--accent); font-weight: 600; }
+.nav-item .tag { font-size: 10px; padding: 1px 5px; border-radius: 3px; background: var(--panel-strong); color: var(--primary); flex-shrink: 0; margin-left: auto; }
 .nav-item.active .tag { background: var(--accent); color: #fff; }
 
 /* ── Main ── */
@@ -108,9 +109,10 @@ body { font-family: -apple-system, "Noto Sans TC", sans-serif; color: var(--text
 .badge-ck  { background: var(--accent); color: #fff; }
 
 /* Home page */
-.home-hero { background: linear-gradient(135deg, #2D6878 0%, #4A9BB5 100%); color: #fff; padding: 40px 32px; border-radius: 12px; margin-bottom: 28px; }
-.home-hero h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
-.home-hero p { opacity: .85; font-size: 15px; line-height: 1.7; }
+.home-hero { background: transparent; color: var(--text); padding: 36px 0 28px; border-radius: 0; margin-bottom: 28px; border-bottom: 2px solid var(--panel-strong); }
+.home-hero-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary); background: var(--panel); border: 1px solid var(--panel-strong); padding: 3px 10px; border-radius: 4px; margin-bottom: 14px; }
+.home-hero h1 { font-size: 34px; font-weight: 800; color: var(--text); margin-bottom: 10px; line-height: 1.2; }
+.home-hero p { font-size: 15px; color: var(--text-muted); line-height: 1.7; max-width: 640px; }
 .home-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 28px; }
 .stat-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 18px; text-align: center; }
 .stat-num { font-size: 32px; font-weight: 800; color: var(--primary-soft); }
@@ -1017,7 +1019,8 @@ function renderHome(el) {
   cats.forEach(c => counts[c] = DOCS.filter(d => d.cat === c).length);
   el.innerHTML = `
   <div class="home-hero">
-    <h1>🦷 牙科診所 SOP 文件系統</h1>
+    <div class="home-hero-tag">Taiwan Dental Clinic · SOP System</div>
+    <h1>牙科診所<br>SOP 文件系統</h1>
     <p>從開業申請到日常營運的完整標準作業程序，共 ${DOCS.length - 1} 份文件，涵蓋法規、人員、流程、財務、緊急應對等各面向。</p>
   </div>
   <div class="home-stats">
