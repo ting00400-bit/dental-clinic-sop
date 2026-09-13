@@ -159,7 +159,7 @@ body { font-family: -apple-system, "Noto Sans TC", sans-serif; color: var(--text
 <nav id="sidebar">
   <div id="sidebar-header">
     <h1>🦷 牙科診所<br>SOP 文件系統</h1>
-    <p>24 份標準作業程序</p>
+    <p>32 份標準作業程序</p>
   </div>
   <div id="search-wrap">
     <input id="search" type="text" placeholder="搜尋文件…" oninput="filterNav(this.value)">
@@ -183,20 +183,92 @@ body { font-family: -apple-system, "Noto Sans TC", sans-serif; color: var(--text
 const DOCS = [
 {id:'HOME', cat:'home', title:'文件總覽', badge:'', desc:''},
 // PRE
+{id:'PRE-00', cat:'PRE', title:'13 STEPS 開業總覽', badge:'badge-pre',
+ ver:'v1.0', date:'2026-09-13',
+ desc:'籌備主幹流程、13 階段對照、進度追蹤表',
+ content:`
+<div class="callout callout-note"><div class="callout-title">📌 這是籌備期的主幹</div>籌備開業請照 STEP 01→13 走；開業後再回到 QM / QP / WSOP / CK 四階文件架構管理。<br>本表為籌備流程參考架構，實際規定請以主管機關最新公告為準。</div>
+<h2>時程認知</h2>
+<table><tr><th>範圍</th><th>時程</th></tr>
+<tr><td>正式階段（STEP 01 → 13）</td><td><strong>約 4–8 個月</strong></td></tr>
+<tr><td>含選址與籌備（「選定店面」→「設立申請」）</td><td>連進去約 10 個階段</td></tr>
+<tr><td>保守估計（含前期市場評估）</td><td>6–12 個月</td></tr></table>
+<div class="callout callout-warn"><div class="callout-title">⚠ 兩個關鍵並行</div>
+<ul><li><strong>裝潢工程與跑照並行</strong> — 不要等裝潢完才開始跑照</li>
+<li><strong>器械耗材開業前 2 個月下訂，開幕前 2–3 週完成採購</strong></li></ul></div>
+<h2>13 STEPS 與文件對照</h2>
+<table><tr><th>STEP</th><th>階段</th><th>核心</th><th>對應文件</th></tr>
+<tr><td>01</td><td>關於開業 STRATEGY</td><td>理念、定位、規模與資格</td><td>PRE-01</td></tr>
+<tr><td>02</td><td>找尋店面 LOCATION</td><td><strong>選址決定天花板，法規決定能不能開</strong></td><td>PRE-02</td></tr>
+<tr><td>03</td><td>品牌空間規劃 SPACE</td><td>動線一旦做錯，裝潢後無法補救</td><td>PRE-03</td></tr>
+<tr><td>04</td><td>品牌設計 BRANDING</td><td>品牌創造價值，價值創造病人</td><td>PRE-08</td></tr>
+<tr><td>05</td><td>大型設備選購 EQUIPMENT</td><td>功能需求、安全性、日常維護</td><td>PRE-03</td></tr>
+<tr><td>06</td><td>人事制度 HR SYSTEM</td><td>制度、招募、培訓、考核四塊都要落地</td><td>QP-01 / 02 / 03</td></tr>
+<tr><td>07</td><td>教育訓練 TRAINING</td><td>客製化教材、互動式課程</td><td>QP-04</td></tr>
+<tr><td>08</td><td>器械耗材採購與管理 SUPPLY</td><td>四步採購 ＋ 三軸庫存管理</td><td>WSOP-05</td></tr>
+<tr><td>09</td><td>診所 SOP</td><td>站別 × 時間 × 分工 × 流動</td><td>全套 WSOP</td></tr>
+<tr><td>10</td><td>診所設立申請 LICENSING</td><td><strong>跑照流程：順序錯了就會卡關</strong></td><td>PRE-02</td></tr>
+<tr><td>11</td><td>開業健保申報／抽審 NHI</td><td>病歷寫得完整，永遠比事後解釋有效</td><td>PRE-05</td></tr>
+<tr><td>12</td><td>開幕活動 OPENING</td><td>建立信任與在地連結，不是塞滿場地</td><td>PRE-09</td></tr>
+<tr><td>13</td><td>正式營運 OPERATION</td><td>從「開好一間診所」走向「經營好一間診所」</td><td>QM-01</td></tr></table>
+<h2>進度追蹤</h2>
+<p>每個 STEP 都要有<strong>負責人（有名字）</strong>與<strong>有日期的預計完成日</strong>。</p>
+<ul class="checklist">
+<li><input type="checkbox"><label>STEP 01 關於開業 — 理念、定位、規模、開業資格、稅務規劃</label></li>
+<li><input type="checkbox"><label>STEP 02 找尋店面 — 周邊評估、店面規模、<strong>分區 / 類組 / 竣工圖</strong></label></li>
+<li><input type="checkbox"><label>STEP 03 品牌空間規劃 — 三圖確認、設備對照、單向動線、施工發包</label></li>
+<li><input type="checkbox"><label>STEP 04 品牌設計 — 命名、識別、招牌、指標、周邊</label></li>
+<li><input type="checkbox"><label>STEP 05 大型設備選購 — 影像、診療、消毒、弱電、管理系統</label></li>
+<li><input type="checkbox"><label>STEP 06 人事制度 — 制度、招募、培訓、考核</label></li>
+<li><input type="checkbox"><label>STEP 07 教育訓練 — 分階培訓、教材、互動課程、帶訓制度</label></li>
+<li><input type="checkbox"><label>STEP 08 器械耗材 — 四步採購、庫存三軸</label></li>
+<li><input type="checkbox"><label>STEP 09 診所 SOP — 站別分工、執行週期、文件三件套、版本控管</label></li>
+<li><input type="checkbox"><label>STEP 10 診所設立申請 — 公會→衛生局→稅籍→VPN→特約</label></li>
+<li><input type="checkbox"><label>STEP 11 開業健保申報／抽審 — 月申報、電子病歷、抽審、核減申復</label></li>
+<li><input type="checkbox"><label>STEP 12 開幕活動 — 茶會、邀請、宣傳、當日分工</label></li>
+<li><input type="checkbox"><label>STEP 13 正式營運 — 總演練、晨會、指標追蹤、定期回顧</label></li>
+</ul>
+<div class="callout callout-danger"><div class="callout-title">🚫 最容易整案卡死的兩處</div>
+<ul><li><strong>STEP 02 選址</strong>：土地使用分區不符、建築物非 G3 類組 — 租約簽下去才發現，等於整案重來</li>
+<li><strong>STEP 10 跑照</strong>：忘了先加入公會、或 VPN 三件套沒同時到位 — 整串流程卡住</li></ul></div>
+<div class="callout callout-tip"><div class="callout-title">💡 開診前總演練</div>安排 <strong>2–3 位「假病人」</strong>實際跑完掛號→看診→收費→預約→申報全流程，能在開幕前抓出約<strong>八成</strong>的漏洞。</div>`
+},
 {id:'PRE-01', cat:'PRE', title:'開業前期總時程', badge:'badge-pre',
- desc:'6–12 個月里程碑、選址評估、成本概估',
+ ver:'v2.0', date:'2026-09-13',
+ desc:'6–12 個月里程碑、跑照順序、選址評估、成本概估',
  content:`
 <h2>開業里程碑</h2>
-<pre>[M-12] 選址評估 & 市場調查
-[M-10] 場地確認 & 建築評估
-[M-9]  建築師繪圖 & 衛生局預審
-[M-8]  裝修動工
-[M-6]  設備採購下訂
+<pre>[M-12] 選址評估 & 市場調查                    ← STEP 01
+[M-10] 場地確認 & 分區/類組/竣工圖查證         ← STEP 02（簽約前必查）
+[M-9]  建築師繪圖（平面+系統+立面）& 衛生局預審 ← STEP 03
+[M-8]  裝修動工｜同步：X光申報、消防、招牌法規  ← STEP 03/04
+[M-6]  大型設備採購下訂                        ← STEP 05
 [M-4]  裝修完工 & 設備進場安裝
-[M-3]  申請診所開業執照 + 健保特約申請
-[M-2]  人員招募 & 到職訓練
-[M-1]  試營運（軟開幕）
-[M-0]  正式開業</pre>
+[M-3]  加入公會 → 衛生局開業執照 → 統編稅籍     ← STEP 10
+[M-3]  健保 VPN/醫事機構卡 → 健保特約申請
+[M-2]  人員招募 & 到職訓練｜耗材下訂            ← STEP 06/07/08
+[M-1]  SOP 定版 & 試營運（軟開幕）              ← STEP 09
+[M-0]  開診前總演練 → 開幕活動 → 正式開業       ← STEP 12/13
+[M+1/3/6] 制度回顧（各一次全面檢視）            ← STEP 13</pre>
+<div class="callout callout-warn"><div class="callout-title">⚠ 兩個並行原則</div>
+<ul><li><strong>裝潢工程與跑照並行</strong> — 不要等裝潢完才開始跑照</li>
+<li><strong>器械耗材開業前 2 個月下訂，開幕前 2–3 週完成進場</strong></li></ul></div>
+<h2>跑照：串聯順序（不可跳）</h2>
+<table><tr><th>#</th><th>申請項目</th><th>受理機關</th><th>時程</th></tr>
+<tr><td>1</td><td><strong>加入開業所在地牙醫師公會</strong></td><td>縣市牙醫師公會</td><td>依公會作業</td></tr>
+<tr><td>1'</td><td>醫師執業登記（須附公會會員證明）</td><td>縣市衛生局</td><td>1–2 週</td></tr>
+<tr><td>2</td><td>診所設立申請、取得<strong>開業執照</strong></td><td>縣市衛生局</td><td>2–4 週</td></tr>
+<tr><td>3</td><td><strong>統一編號、稅籍登記、銀行開戶</strong></td><td>國稅局／銀行</td><td>1–2 週</td></tr>
+<tr><td>4</td><td><strong>健保 VPN、醫事機構卡、讀卡設備代號</strong></td><td>健保署</td><td>預留工作日</td></tr>
+<tr><td>5</td><td>健保特約簽約、勞健保投保</td><td>健保署／勞保局</td><td>4–8 週</td></tr></table>
+<h3>可平行進行</h3>
+<table><tr><th>申請項目</th><th>受理機關</th><th>時程</th></tr>
+<tr><td>X 光設備許可</td><td>原子能委員會</td><td>4–8 週（<strong>安裝前</strong>取得）</td></tr>
+<tr><td>消防安全設備查驗</td><td>縣市消防局</td><td>裝修完工後</td></tr>
+<tr><td>感染性廢棄物清除合約</td><td>合格清除機構</td><td>簽約即可</td></tr></table>
+<div class="callout callout-danger"><div class="callout-title">🚫 兩個最常被漏掉的節點</div>
+<ul><li><strong>公會</strong>：執業登記的前置，忘了就整串卡住</li>
+<li><strong>VPN + 讀卡設備 + 醫事人員卡</strong>：三者要<strong>同時到位</strong>才能上線作業，申請與寄送都需工作日</li></ul></div>
 <h2>階段一：決策與選址</h2>
 <h3>選址評估標準</h3>
 <table><tr><th>項目</th><th>評估重點</th></tr>
@@ -214,17 +286,110 @@ const DOCS = [
 <tr><td>電腦掛號系統</td><td>NT$3–10 萬/年</td></tr>
 <tr><td>初期耗材備貨</td><td>NT$10–20 萬</td></tr>
 <tr><td><strong>合計（最低估算）</strong></td><td><strong>NT$300–900 萬</strong></td></tr></table>
-<div class="callout callout-warn"><div class="callout-title">⚠ 新診所健保限額</div>新開業診所前 18 個月健保申報有點數上限（高雄約 NT$30 萬/月），開業初期需積極發展自費療程補足收入缺口。</div>`
+<div class="callout callout-warn"><div class="callout-title">⚠ 新診所健保限額</div>新開業診所前 18 個月健保申報有點數上限（高雄約 NT$30 萬/月），開業初期需積極發展自費療程補足收入缺口。</div>
+<h2>設備採購關鍵時程</h2>
+<ul>
+<li>治療椅：交期 8–12 週，早下訂</li>
+<li>X 光機：<strong>法規登記與交機時程提早確認</strong>，申報核准後才能安裝</li>
+<li>高壓滅菌鍋：需確認電力負荷（三相電）</li>
+<li><strong>器械耗材</strong>：開業前 <strong>2 個月下訂</strong>（注意廠商開業價活動期限），開幕前 <strong>2–3 週</strong>完成進場</li>
+</ul>
+<div class="callout callout-tip"><div class="callout-title">💡 議價不是唯一重點</div>設備<strong>停機一天的損失，通常遠大於議價下的金額</strong>。保固範圍、到場維修時效、備用機改策要一起談進合約。</div>
+<h2>試營運與開診前總演練（M-1）</h2>
+<div class="callout callout-danger"><div class="callout-title">🚫 總演練不能省</div>安排 <strong>2–3 位「假病人」</strong>實際跑完整流程，能在開幕前抓出約<strong>八成</strong>的漏洞。</div>
+<ul class="checklist">
+<li><input type="checkbox"><label><strong>總演練</strong>：掛號 → 看診 → 收費 → 預約 → 申報，全流程實際跑完一次</label></li>
+<li><input type="checkbox"><label>系統壓力測試（預約、掛號、收費、影像串接）</label></li>
+<li><input type="checkbox"><label>發現問題 → 修正 SOP → 再測試</label></li>
+<li><input type="checkbox"><label>拍攝診所照片、建立 Google 我的商家</label></li>
+<li><input type="checkbox"><label>社群帳號建立、開幕預告貼文</label></li>
+<li><input type="checkbox"><label>開幕當天<strong>保留基本看診能量</strong>與一位不參與活動的值班人員</label></li>
+</ul>
+<h2>開業後制度回顧（M+1 / M+3 / M+6）</h2>
+<div class="callout callout-note"><div class="callout-title">📌 習慣定型期</div>開幕後三個月是習慣定型期。每天 10 分鐘晨會 + 每週一次檢討，決定診所文化最終長成什麼樣子。</div>
+<ul class="checklist">
+<li><input type="checkbox"><label>每日晨會、每週檢討（開幕後三個月尤其不可省）</label></li>
+<li><input type="checkbox"><label>營運指標固定一張表追蹤：初診數、回診率、預約未到率</label></li>
+<li><input type="checkbox"><label><strong>開業後 1 / 3 / 6 個月各做一次全面回顧</strong>（制度、SOP、人事、財務）</label></li>
+</ul>`
 },
 {id:'PRE-02', cat:'PRE', title:'法規申請文件清單', badge:'badge-pre',
- desc:'衛生局、健保署、原能會、消防局申請明細',
+ ver:'v2.0', date:'2026-09-13',
+ desc:'選址法規前置、跑照順序、衛生局／健保署／原能會申請明細',
  content:`
-<h2>申請時序建議</h2>
-<pre>[裝修期間] → X光申報 + 消防申請 + 廢棄物合約（同步）
-[裝修完工] → 消防查驗 → 衛生局診所開業許可
-[取得開業許可] → 醫師執業登記 + 健保特約申請（同步）
-[健保生效] → 正式開診</pre>
-<h2>一、診所開業許可</h2>
+<div class="callout callout-warn"><div class="callout-title">⚠ v2.0 主要修訂</div>舊版遺漏三個必經步驟：<strong>加入當地牙醫師公會</strong>、<strong>統一編號／稅籍登記／銀行開戶</strong>、<strong>健保 VPN 與醫事機構卡</strong>。另新增「選址階段的法規前置」整段 — 這段沒過，後面全部白做。</div>
+<h2>申請時序總表</h2>
+<pre>[簽租約前]  土地使用分區 + 建築物使用類組 + 原始竣工圖  ← 沒過就換場地
+     ↓
+[設計期]    建築師出圖（平面/系統/立面三圖） + 衛生局場地預審
+     ↓
+[裝修期間]  同步：X 光申報 + 消防申請 + 廢棄物合約 + 招牌法規確認
+     ↓
+[裝修完工]  消防查驗 → 加入公會 → 醫師執業登記
+     ↓
+[跑照]      衛生局診所開業許可 → 統編/稅籍/銀行開戶
+     ↓
+            健保 VPN + 醫事機構卡 + 讀卡設備代號（預留工作日）
+     ↓
+            健保特約簽約 + 勞健保投保
+     ↓
+[健保生效]  開診前總演練 → 正式開診</pre>
+
+<h2>一、選址階段的法規前置（簽約前必查）</h2>
+<div class="callout callout-danger"><div class="callout-title">🚫 這是所有選址風險中最難補救的一段</div>場地找到了、租約簽了、裝潢開工了，才發現分區不符或建物用途不對 — 此時已無解。<strong>這幾項要在簽租約之前查完。</strong></div>
+<h3>1. 土地使用分區管制</h3>
+<ul>
+<li>醫事機構屬 <strong>「醫療保健服務業」</strong>，所在分區需符合允許使用範圍</li>
+<li>不同分區對醫療用途的容許條件不同</li>
+<li><strong>查詢窗口</strong>：當地都發局或建管單位</li>
+</ul>
+<h3>2. 建築物使用用途類組</h3>
+<table><tr><th>情況</th><th>處理方式</th></tr>
+<tr><td>已是 <strong>G3 診所使用類組</strong>（或第二類組）</td><td>可直接進入後續程序</td></tr>
+<tr><td>非 G3 類組</td><td>須辦理<strong>變更使用</strong>，或確認是否符合<strong>「免辦變更」</strong>條件</td></tr>
+<tr><td>純住宅大樓</td><td>通常不可開診所</td></tr></table>
+<h3>3. 申請原始竣工圖</h3>
+<ul>
+<li>取得<strong>原始竣工圖</strong>（即使有照圖），或第二類建物測量成果圖</li>
+<li>用途：判斷有無違建、作為設計師繪圖與後續送審的基礎文件</li>
+<li><strong>沒有竣工圖，建築師無法出圖，衛生局也無從審查</strong></li>
+</ul>
+<h3>選址法規檢核</h3>
+<ul class="checklist">
+<li><input type="checkbox"><label>土地使用分區確認符合醫療保健服務業</label></li>
+<li><input type="checkbox"><label>建築物使用類組確認為 G3（或已確認變更／免辦變更路徑）</label></li>
+<li><input type="checkbox"><label>取得原始竣工圖或第二類建物測量成果圖</label></li>
+<li><input type="checkbox"><label>建物使用執照影本可取得</label></li>
+<li><input type="checkbox"><label>房東同意設置招牌</label></li>
+<li><input type="checkbox"><label>委託建築師做場地合規性初評</label></li>
+<li><input type="checkbox"><label>衛生局場地預審（正式裝修前諮詢，避免白做工）</label></li>
+</ul>
+
+<h2>二、跑照正確順序</h2>
+<div class="callout callout-danger"><div class="callout-title">🚫 順序錯了就會卡關，請預留工作日</div></div>
+<pre>1. 加入開業所在地牙醫師公會 ── 取得會員資格
+        ↓
+2. 衛生局申請設立、取得開業執照 ── 含平面圖等相關資料
+        ↓
+3. 申請統一編號、稅籍登記與銀行開戶
+        ↓
+4. 申請健保 VPN 與醫事機構卡、讀卡設備代號
+        ↓
+5. 健保署特約簽約、勞健保與各項投保</pre>
+<div class="callout callout-tip"><div class="callout-title">💡 步驟 3</div>完成稅籍與開戶後才能順利收款與請領健保費用。<strong>帳戶請與私人帳戶分離</strong>，日後記帳與稽查都會輕鬆許多。</div>
+<div class="callout callout-tip"><div class="callout-title">💡 步驟 4</div>VPN、讀卡設備與醫事人員卡<strong>三者要同時到位</strong>才能實際上線作業。申請與寄送都需工作日，<strong>請預留緩衝時間</strong>。</div>
+<h3>跑照文件備齊檢核</h3>
+<ul class="checklist">
+<li><input type="checkbox"><label>公會入會申請（含醫師執照、身分證、照片）</label></li>
+<li><input type="checkbox"><label>衛生局設立申請全套文件</label></li>
+<li><input type="checkbox"><label>稅籍登記申請書、負責人身分證、租約</label></li>
+<li><input type="checkbox"><label>診所專用銀行帳戶開立</label></li>
+<li><input type="checkbox"><label>健保 VPN 申請書、醫事機構卡申請、讀卡機設備代號登錄</label></li>
+<li><input type="checkbox"><label>醫事人員卡（每位執業醫師）</label></li>
+<li><input type="checkbox"><label>健保特約申請全套文件</label></li>
+</ul>
+
+<h2>三、診所開業許可</h2>
 <p><strong>主管機關</strong>：縣市衛生局｜<strong>預估時程</strong>：2–4 週</p>
 <h3>申請文件</h3>
 <ul class="checklist" id="chk-pre02-1">
@@ -245,8 +410,22 @@ const DOCS = [
 <tr><td>診療室</td><td>每診椅 10 平方公尺以上</td></tr>
 <tr><td>污物處理室</td><td>獨立空間</td></tr>
 <tr><td>廁所</td><td>1 間以上</td></tr></table>
-<h2>二、X 光設備申報（原能會）</h2>
-<div class="callout callout-danger"><div class="callout-title">🚨 重要</div>未申報即安裝屬違法，需先取得許可再安裝設備。</div>
+<h2>四、醫師執業登記</h2>
+<p><strong>主管機關</strong>：縣市衛生局｜<strong>時程</strong>：1–2 週｜每位執業醫師（含受僱醫師）都需辦理</p>
+<ul class="checklist">
+<li><input type="checkbox"><label>醫師執業登記申請書</label></li>
+<li><input type="checkbox"><label>醫師執照正本（驗後退還）+ 影本</label></li>
+<li><input type="checkbox"><label>身分證影本、6 個月內 2 吋照片 2 張</label></li>
+<li><input type="checkbox"><label>繼續教育積分證明（每 6 年 120 點）</label></li>
+<li><input type="checkbox"><label><strong>當地牙醫師公會會員證明</strong></label></li>
+<li><input type="checkbox"><label>前次執業執照（若有，需辦理註銷）</label></li></ul>
+<h3>負責醫師資格</h3>
+<ul class="checklist">
+<li><input type="checkbox"><label>PGY 訓練證明</label></li>
+<li><input type="checkbox"><label>執業執照</label></li>
+<li><input type="checkbox"><label>負責醫師資格確認（依《醫療法》執業年資要件）</label></li></ul>
+<h2>五、X 光設備申報（原能會）</h2>
+<div class="callout callout-danger"><div class="callout-title">🚨 重要</div>未申報即安裝屬違法，需先取得許可再安裝設備。<br><strong>影像設備的法規登記與交機時程請提早確認</strong> — 許可未下來設備不能安裝，整個開業時程會被卡住。</div>
 <h3>申請流程</h3>
 <ul class="checklist" id="chk-pre02-2">
 <li><input type="checkbox"><label>委託醫用物理師出具輻射防護計劃書</label></li>
@@ -254,19 +433,71 @@ const DOCS = [
 <li><input type="checkbox"><label>取得許可後安裝設備</label></li>
 <li><input type="checkbox"><label>安裝完成後通知 AEC 進行查驗</label></li>
 <li><input type="checkbox"><label>查驗通過取得設備登記證</label></li></ul>
-<h2>三、健保特約申請</h2>
-<p><strong>主管機關</strong>：健保署｜<strong>預估時程</strong>：4–8 週</p>
+<h2>六、健保特約申請</h2>
+<p><strong>主管機關</strong>：健保署｜<strong>預估時程</strong>：4–8 週｜<strong>前置</strong>：需先完成公會、開業執照、稅籍、VPN 與醫事機構卡</p>
 <ul class="checklist" id="chk-pre02-3">
 <li><input type="checkbox"><label>確認已領有開業執照</label></li>
+<li><input type="checkbox"><label>完成統編、稅籍登記與銀行開戶</label></li>
+<li><input type="checkbox"><label>健保 VPN、醫事機構卡與讀卡設備代號申請完成</label></li>
 <li><input type="checkbox"><label>全民健保特約申請書</label></li>
 <li><input type="checkbox"><label>診所開業許可證影本</label></li>
 <li><input type="checkbox"><label>醫事人員名冊</label></li>
 <li><input type="checkbox"><label>感染性廢棄物清除合約</label></li>
-<li><input type="checkbox"><label>簽訂健保特約合約，確認生效日</label></li></ul>`
+<li><input type="checkbox"><label>銀行帳戶資料（健保費用請領用）</label></li>
+<li><input type="checkbox"><label>健保署派員實地查核</label></li>
+<li><input type="checkbox"><label>簽訂健保特約合約，確認生效日</label></li></ul>
+<div class="callout callout-warn"><div class="callout-title">⚠ 新特約院所受關注度較高</div>新特約診所在抽審上受到的關注度較高，<strong>病歷記載的完整性是抽審成敗的關鍵</strong>。新開業前 18 個月另有申報點數上限，開業前務必向健保署當地業務組確認最新數字。</div>
+
+<h2>七、診所命名、招牌與醫療廣告法規</h2>
+<h3>診所命名</h3>
+<ul class="checklist">
+<li><input type="checkbox"><label>名稱須符合<strong>醫療機構名稱規範</strong></label></li>
+<li><input type="checkbox"><label>查詢是否有<strong>既存同名診所</strong></label></li>
+<li><input type="checkbox"><label>查詢是否有<strong>既存商標</strong></label></li>
+<li><input type="checkbox"><label>同步確認<strong>網域</strong>與<strong>社群帳號</strong>是否還能註冊</label></li></ul>
+<h3>戶外招牌</h3>
+<ul class="checklist">
+<li><input type="checkbox"><label>招牌<strong>尺寸與設置</strong>符合規定</label></li>
+<li><input type="checkbox"><label>招牌內容屬醫療廣告，<strong>內容有法定限制</strong></label></li>
+<li><input type="checkbox"><label>設計定稿前確認法規與<strong>房東同意</strong></label></li></ul>
+<h3>空間指標</h3>
+<ul class="checklist">
+<li><input type="checkbox"><label>診間編號、洗手間標示</label></li>
+<li><input type="checkbox"><label><strong>無障礙等標示</strong>（法定要求）</label></li></ul>
+<div class="callout callout-warn"><div class="callout-title">⚠ 醫療廣告限制</div>醫療廣告內容受法規限制，<strong>須避免療效保證</strong>，比較性用語需謹慎、避免不當招引。開幕優惠文案尤其容易踩線 — 折扣本身可以，但不能搭配療效承諾。</div>
+
+<h2>八、商業登記與稅務規劃</h2>
+<ul class="checklist">
+<li><input type="checkbox"><label>向國稅局辦理<strong>稅籍登記</strong>、取得<strong>統一編號</strong></label></li>
+<li><input type="checkbox"><label>商業登記（依經營型態確認是否需要）</label></li>
+<li><input type="checkbox"><label>委任記帳事務所或會計師事務所</label></li>
+<li><input type="checkbox"><label>風險評估、<strong>診所與個人財務如何劃分</strong></label></li>
+<li><input type="checkbox"><label>診所專用銀行帳戶（<strong>與私人帳戶分離</strong>）</label></li></ul>
+<div class="callout callout-tip"><div class="callout-title">💡 顧問提醒</div>建議在<strong>簽租約前</strong>先與顧問／會計師談過一次，比事後補救省得多。<br>《醫療法》限制醫療機構不得以公司型態追求盈利為目的（實務上常以個人院長名義設立）。</div>
+
+<h2>九、勞健保加保（員工到職後）</h2>
+<ul class="checklist">
+<li><input type="checkbox"><label>員工<strong>到職當日或前一日</strong>辦理勞保、健保加保</label></li>
+<li><input type="checkbox"><label><strong>勞退提繳</strong>同時辦理</label></li>
+<li><input type="checkbox"><label>先成立「投保單位」（以診所稅籍／商業登記辦理）</label></li>
+<li><input type="checkbox"><label>每月 10 日前申報當月保費</label></li></ul>
+<div class="callout callout-danger"><div class="callout-title">🚫 到職日就要投保</div>到職日就必須完成勞健保與勞退投保，<strong>不能等試用期過</strong>。</div>`
 },
 {id:'PRE-03', cat:'PRE', title:'場地設備規劃', badge:'badge-pre',
- desc:'空間配置、設備清單、裝修材質、電力規劃',
+ ver:'v2.0', date:'2026-09-13',
+ desc:'三圖確認、單向動線、設備選購三方向、裝修與電力',
  content:`
+<div class="callout callout-danger"><div class="callout-title">🚫 動線一旦做錯，裝潢後幾乎無法補救</div></div>
+<h2>設計階段五步</h2>
+<ul class="checklist">
+<li><input type="checkbox"><label><strong>空間需求確認</strong>：平面配置圖、系統圖、立面圖<strong>三圖確認</strong>，並整合品牌設計需求</label></li>
+<li><input type="checkbox"><label><strong>設備清單對照</strong>：列出設備清單，確認符合空間與管路規劃需求</label></li>
+<li><input type="checkbox"><label><strong>中央區與消毒室動線</strong>：由髒到乾淨<strong>單向流動</strong></label></li>
+<li><input type="checkbox"><label><strong>轉換無紙化病歷</strong>：評估電子病歷、影像與資訊設備所需空間</label></li>
+<li><input type="checkbox"><label><strong>施工、監工與工程報價</strong>：確認報價項目、工期、付款節點與監工責任</label></li>
+</ul>
+<div class="callout callout-note"><div class="callout-title">📌 三圖要同時審過一次</div><strong>平面決定「動線」、立面決定「感受」、系統圖決定「能不能施工」。</strong>三者請同時審過一次，避免現場才發現插座與給水位置對不上設備。設備尺寸、電壓、排水與空壓需求要在<strong>放樣前</strong>定案。</div>
+<div class="callout callout-warn"><div class="callout-title">⚠ 發包提醒</div>請要求承包商<strong>逐項列出而非一式總價</strong>，並約定<strong>變更追加須書面確認</strong>。</div>
 <h2>空間配置（雙診椅診所）</h2>
 <table><tr><th>區域</th><th>功能</th><th>建議坪數</th></tr>
 <tr><td>候診室</td><td>等待、衛教展示</td><td>5–8 坪</td></tr>
@@ -276,6 +507,27 @@ const DOCS = [
 <tr><td>滅菌室</td><td>器械清洗、滅菌、存放</td><td>3–5 坪</td></tr>
 <tr><td>廁所</td><td>患者用 + 員工用</td><td>2–3 坪</td></tr>
 <tr><td><strong>合計</strong></td><td></td><td><strong>約 30–50 坪</strong></td></tr></table>
+<div class="callout callout-danger"><div class="callout-title">🚫 感染控制動線</div>清潔器械與污染器械的流向需明確分開，<strong>中央區與消毒室必須單向流動（髒進清出、不迴流）</strong>。這既是感控查核重點，也是日後工作效率的關鍵 — <strong>這一項做錯，代價最高</strong>。</div>
+<h2>設備選購三方向</h2>
+<p>每一項設備都用這三個角度過一次：<strong>功能需求、安全性、日常維護</strong>。</p>
+<table><tr><th>類別</th><th>項目</th><th>選購重點</th></tr>
+<tr><td>影像設備</td><td>環口 X 光、CT、口內掃描與影像管理</td><td><strong>法規登記與交機時程請提早確認</strong></td></tr>
+<tr><td>診療設備</td><td>診療椅、空壓機、吸唾機</td><td>議價之外，務必確認<strong>保固範圍、到場維修時效與備用機改策</strong></td></tr>
+<tr><td>消毒設備</td><td>滅菌鍋、清洗、包裝設備、器械追溯機制</td><td>滅菌對應<strong>尖峰時段的器械週轉速度</strong>，保留<strong>生物與化學指示劑紀錄</strong></td></tr>
+<tr><td>弱電系統</td><td>監視、網路、電話、保全與廣播</td><td>健保 VPN、雲端病歷、影像傳輸都吃網路穩定度，<strong>建議以有線為主</strong></td></tr>
+<tr><td>診所管理系統</td><td>掛號、病歷、收費、預約與健保申報整合</td><td>見下方</td></tr></table>
+<div class="callout callout-warn"><div class="callout-title">⚠ 設備停機的真實成本</div><strong>設備停機一天的損失，通常遠大於議價下的金額。</strong>保固與維修條款要一起談進合約，不要只比價。</div>
+<div class="callout callout-tip"><div class="callout-title">💡 器械追溯</div>滅菌設備要能保留生物與化學指示劑紀錄，<strong>每一批次都應可追溯到日期、機器與操作者</strong>。這是感控查核必看的項目。</div>
+<h2>診所管理系統：簽約前一定要做的事</h2>
+<div class="callout callout-danger"><div class="callout-title">🚫 實際試操作全流程</div><strong>掛號 → 看診 → 收費 → 預約 → 申報</strong>整串跑一次，並確認：</div>
+<ul class="checklist">
+<li><input type="checkbox"><label>能否串接<strong>影像系統</strong>與<strong>預約提醒</strong></label></li>
+<li><input type="checkbox"><label><strong>資料是否可完整匯出</strong>（未來換系統時，這一點決定你會不會被綁死）</label></li>
+<li><input type="checkbox"><label>健保申報功能是否符合最新規範</label></li>
+<li><input type="checkbox"><label>是否支援行動裝置查看、教育訓練是否完善</label></li>
+</ul>
+<h3>電子病歷（無紙化）</h3>
+<div class="callout callout-note"><div class="callout-title">📌 導入時一併設定</div>電子病歷的簽章、<strong>備份與稽核軌跡</strong>都有規範要求，<strong>導入時就一併設定好</strong>，日後不必回頭補資料。</div>
 <h2>核心設備清單</h2>
 <table><tr><th>設備</th><th>規格建議</th><th>概估費用</th><th>交期</th></tr>
 <tr><td>牙科治療椅</td><td>電動式，含燈、水氣槽</td><td>NT$30–80 萬/張</td><td>8–12 週</td></tr>
@@ -326,8 +578,23 @@ const DOCS = [
 <li><input type="checkbox"><label>後續追蹤（6 週、3 個月、6 個月）</label></li></ul>`
 },
 {id:'PRE-05', cat:'PRE', title:'健保申報 SOP', badge:'badge-pre',
- desc:'月度申報時程、自查指標、審查應對、申復流程',
+ ver:'v2.0', date:'2026-09-13',
+ desc:'月申報、電子病歷、抽審應對、核減申復與流程回饋',
  content:`
+<div class="callout callout-note"><div class="callout-title">📌 核心原則</div><strong>病歷寫得完整，永遠比事後解釋有效。</strong></div>
+<div class="callout callout-warn"><div class="callout-title">⚠ 新特約診所請特別注意</div><strong>新特約院所受關注度較高</strong>，病歷記載的完整性是抽審成敗的關鍵。</div>
+<h2>開業健保作業五項</h2>
+<ul class="checklist">
+<li><input type="checkbox"><label><strong>月申報作業（雙軌）</strong>：確認每月申報流程、期限與<strong>內部核核機制</strong></label></li>
+<li><input type="checkbox"><label><strong>電子病歷審查申請</strong>：確認電子病歷實施與審查申請程序</label></li>
+<li><input type="checkbox"><label><strong>健保抽審應對</strong>：掌握抽審週期與應備文件</label></li>
+<li><input type="checkbox"><label><strong>新特約指標</strong>：依健保分區而異，向當地業務組確認</label></li>
+<li><input type="checkbox"><label><strong>核減與申復處理</strong>：指定<strong>專人</strong>追蹤核減原因並於期限內申復</label></li>
+</ul>
+<div class="callout callout-tip"><div class="callout-title">💡 顧問提醒</div>
+<ul><li>建立每月固定的<strong>「申報前自我檢查日」</strong>。申報錯誤的影響往往不只是金額，而是後續抽審的印象</li>
+<li>電子病歷的簽章、備份與<strong>稽核軌跡</strong>都有規範要求，<strong>導入時就一併設定好</strong></li>
+<li>把核減原因<strong>回饋到臨床與登錄流程</strong>，同一種錯誤才不會反覆發生</li></ul></div>
 <h2>每月申報時程</h2>
 <table><tr><th>時段</th><th>申報案件</th><th>截止日</th></tr>
 <tr><td>1 日–15 日</td><td>上半月醫療服務</td><td>次月 10 日前</td></tr>
@@ -354,7 +621,29 @@ const DOCS = [
   ↓ 治療醫師補充 Clinical Rationale
   ↓ 負責醫師審閱確認
   ↓ 送件（保留版本 + 附件清單）
-  ↓ 記錄後續結果</pre>`
+  ↓ 記錄後續結果</pre>
+<h2>核減後的流程回饋（最常被略過的一步）</h2>
+<div class="callout callout-danger"><div class="callout-title">🚫 只申復不改流程，明年還會再遇到</div></div>
+<pre>核減通知 → 專人追蹤原因 → 期限內申復（通常 30 日）
+        ↓
+  分類核減原因（病歷不足？登錄錯誤？處置碼誤用？）
+        ↓
+  回饋到臨床與登錄流程 ── 修正 SOP / 病歷模板 / 教育訓練
+        ↓
+  次月申報前自我檢查日驗證改善</pre>
+<ul class="checklist">
+<li><input type="checkbox"><label>每季彙整核減原因分類統計</label></li>
+<li><input type="checkbox"><label>高頻核減原因列入月會討論（WSOP-13）</label></li>
+<li><input type="checkbox"><label>對應修正病歷模板或記載要求（PRE-06）</label></li>
+</ul>
+<h2>電子病歷</h2>
+<ul class="checklist">
+<li><input type="checkbox"><label>確認<strong>電子病歷實施與審查申請程序</strong></label></li>
+<li><input type="checkbox"><label>簽章機制符合規範</label></li>
+<li><input type="checkbox"><label><strong>備份機制</strong>設定完成</label></li>
+<li><input type="checkbox"><label><strong>稽核軌跡（audit trail）</strong>設定完成</label></li>
+</ul>
+<div class="callout callout-tip"><div class="callout-title">💡 系統選型時就要確認</div>資料可完整匯出 — 見 PRE-03 診所管理系統。</div>`
 },
 {id:'PRE-06', cat:'PRE', title:'病歷與同意書 SOP', badge:'badge-pre',
  desc:'SOAP 格式、各療程同意書、廣告合規 SOP',
@@ -418,6 +707,102 @@ const DOCS = [
 <tr><td>行政報酬</td><td>固定管理津貼 + 營運績效獎金</td></tr></table>`
 },
 // QM
+{id:'PRE-08', cat:'PRE', title:'品牌與空間識別', badge:'badge-pre',
+ ver:'v1.0', date:'2026-09-13',
+ desc:'命名、識別設計、招牌法規、指標系統、周邊製作物',
+ content:`
+<div class="callout callout-note"><div class="callout-title">📌 品牌創造價值，價值創造病人</div>這一段有兩個面向：設計面（識別、招牌、周邊）與<strong>法規面</strong>（命名規範、醫療廣告限制、無障礙標示）。法規面沒過，設計再好也要重做。</div>
+<h2>一、診所命名</h2>
+<ul class="checklist">
+<li><input type="checkbox"><label>名稱須符合<strong>醫療機構名稱規範</strong></label></li>
+<li><input type="checkbox"><label>查詢是否有<strong>既存同名診所</strong></label></li>
+<li><input type="checkbox"><label>查詢是否有<strong>既存商標</strong></label></li>
+<li><input type="checkbox"><label>同步確認<strong>網域</strong>與<strong>社群帳號</strong>是否還能註冊</label></li>
+</ul>
+<div class="callout callout-tip"><div class="callout-title">💡 三者一起查</div>避免名字定了才發現網域被佔、或商標踩線。</div>
+<h2>二、品牌價值與識別設計</h2>
+<p>目的：做出市場區隔、凝聚內部向心力、達成行銷目的、維護客戶忠誠度。</p>
+<div class="callout callout-warn"><div class="callout-title">⚠ 交付物要求</div>請設計方交付<strong>可延伸的完整檔案與色票規範</strong>，日後每製作一份物件才不必重新描圖。</div>
+<ul class="checklist">
+<li><input type="checkbox"><label>標準字 / Logo（向量檔 AI、SVG）</label></li>
+<li><input type="checkbox"><label>色票規範（CMYK / RGB / Pantone）</label></li>
+<li><input type="checkbox"><label>字體規範</label></li>
+<li><input type="checkbox"><label>應用範例（名片、招牌、單張、社群版型）</label></li>
+<li><input type="checkbox"><label>原始可編輯檔案（非只有 PNG／JPG）</label></li>
+</ul>
+<h2>三、戶外招牌與形象牆</h2>
+<div class="callout callout-danger"><div class="callout-title">🚫 招牌是醫療廣告</div>
+<ul><li>招牌<strong>尺寸與設置</strong>須符合規定</li>
+<li><strong>醫療廣告內容有法定限制</strong>（須避免療效保證、不當招引）</li>
+<li><strong>設計定稿前</strong>，先確認法規與<strong>房東同意</strong></li></ul></div>
+<ul class="checklist">
+<li><input type="checkbox"><label>招牌設計</label></li>
+<li><input type="checkbox"><label>施作與法規確認（同步進行）</label></li>
+<li><input type="checkbox"><label>房東同意書</label></li>
+</ul>
+<h2>四、空間指標系統</h2>
+<ul class="checklist">
+<li><input type="checkbox"><label>診間編號</label></li>
+<li><input type="checkbox"><label>洗手間標示</label></li>
+<li><input type="checkbox"><label><strong>無障礙等標示</strong>（法定要求）</label></li>
+</ul>
+<div class="callout callout-tip"><div class="callout-title">💡 指標不只是美感</div><strong>更是初診病人的安心感來源</strong>，也能大幅減少櫃檯重複指路的負擔。無障礙標示屬法定要求，設計時一併納入，不要等查核才補。</div>
+<h2>五、周邊製作物</h2>
+<ul class="checklist">
+<li><input type="checkbox"><label>名片</label></li>
+<li><input type="checkbox"><label>口杯</label></li>
+<li><input type="checkbox"><label>制服</label></li>
+<li><input type="checkbox"><label>信封</label></li>
+<li><input type="checkbox"><label>衛教單張</label></li>
+<li><input type="checkbox"><label>預約卡</label></li>
+</ul>
+<div class="callout callout-tip"><div class="callout-title">💡 先小量試作</div><strong>建議先小量試作確認顏色與觸感，再下大量訂單。</strong>螢幕上的顏色與實際印刷、布料上的顏色常有落差。</div>`
+},
+{id:'PRE-09', cat:'PRE', title:'開幕活動 SOP', badge:'badge-pre',
+ ver:'v1.0', date:'2026-09-13',
+ desc:'茶會規劃、邀請名單、宣傳合規、當日分工',
+ content:`
+<div class="callout callout-note"><div class="callout-title">📌 目的是建立信任與在地連結，不是塞滿場地</div>開幕活動的成效不看當天來了多少人，看的是<strong>帶來多少長期的轉診網絡與初診</strong>。</div>
+<h2>一、開幕茶會規劃</h2>
+<ul class="checklist">
+<li><input type="checkbox"><label>場地</label></li>
+<li><input type="checkbox"><label>時段</label></li>
+<li><input type="checkbox"><label>人數與活動流程</label></li>
+</ul>
+<div class="callout callout-tip"><div class="callout-title">💡 顧問提醒</div><strong>讓來訪者「看見你的用心」，比送出多少贈品都有效。</strong>與其把預算砸在贈品，不如花在導覽動線、診所介紹、與醫師本人跟每位來賓實際講到話。</div>
+<h2>二、邀請函設計與發送</h2>
+<div class="callout callout-warn"><div class="callout-title">⚠ 別忘了轉診來源與地區同業</div><strong>長期的轉診網絡，往往比單次活動的人流更有價值。</strong>牙周／植牙專科尤其如此 — 地區一般科診所是主要轉診來源。</div>
+<table><tr><th>對象</th><th>邀請重點</th><th>後續追蹤</th></tr>
+<tr><td>地區一般科診所</td><td>建立轉診關係、說明診所專長項目</td><td>開幕後一個月內致意 + 轉診單提供</td></tr>
+<tr><td>在地里鄰、里長</td><td>社區能見度</td><td>納入社區衛教活動名單</td></tr>
+<tr><td>供應商、技工所</td><td>合作關係</td><td>納入固定聯繫窗口</td></tr>
+<tr><td>親友</td><td>初期人流與口碑</td><td>—</td></tr></table>
+<h2>三、宣傳素材與線上曝光</h2>
+<div class="callout callout-danger"><div class="callout-title">🚫 醫療廣告合規</div><strong>醫療廣告內容受法規限制，須避免療效保證，比較性用語需謹慎、避免不當招引。</strong>開幕優惠文案尤其容易踩線 — 折扣本身可以，但不能搭配療效承諾。</div>
+<ul class="checklist">
+<li><input type="checkbox"><label>官網</label></li>
+<li><input type="checkbox"><label>社群</label></li>
+<li><input type="checkbox"><label>地圖資訊（Google 我的商家 GMB）</label></li>
+<li><input type="checkbox"><label>開幕文案經醫療廣告合規檢視</label></li>
+<li><input type="checkbox"><label>所有素材套用品牌規範（PRE-08）</label></li>
+</ul>
+<h2>四、當日人力與備品分工</h2>
+<div class="callout callout-danger"><div class="callout-title">🚫 活動當天仍可能有初診病人</div><strong>請保留基本看診能量，與一位不參與活動的值班人員。</strong>開幕當天走進來的初診，是最不該漏接的病人。</div>
+<table><tr><th>崗位</th><th>職責</th></tr>
+<tr><td>接待</td><td>簽到、引導、發放資料</td></tr>
+<tr><td>導覽</td><td>診所環境介紹、設備說明</td></tr>
+<tr><td><strong>看診值班</strong></td><td><strong>不參與活動</strong>，負責當日初診／急症</td></tr>
+<tr><td>主持／致詞</td><td>流程掌控</td></tr>
+<tr><td>攝影記錄</td><td>素材留存（供後續社群使用）</td></tr></table>
+<h2>五、活動後追蹤</h2>
+<ul class="checklist">
+<li><input type="checkbox"><label>來賓名單整理與分類建檔</label></li>
+<li><input type="checkbox"><label>轉診同業一個月內致意</label></li>
+<li><input type="checkbox"><label>活動照片整理 → 社群後續使用</label></li>
+<li><input type="checkbox"><label>當日初診患者納入回診追蹤（WSOP-12）</label></li>
+<li><input type="checkbox"><label>新患者來源記錄（活動 vs GMB vs 口碑）（WSOP-11）</label></li>
+</ul>`
+},
 {id:'QM-01', cat:'QM', title:'診所管理手冊', badge:'badge-qm',
  desc:'使命、願景、組織架構、醫師雙重角色、管理總則',
  content:`
@@ -549,6 +934,51 @@ const DOCS = [
 <tr><td>連續 6 個月全勤</td><td>額外特休 1 天</td></tr></table>`
 },
 // WSOP
+{id:'QP-04', cat:'QP', title:'教育訓練計畫', badge:'badge-qp',
+ ver:'v1.0', date:'2026-09-13',
+ desc:'分階培訓、客製化教材、互動式課程、30/60/90 帶訓檢核',
+ content:`
+<div class="callout callout-note"><div class="callout-title">📌 診所就是教室</div>客製化教材、互動式課程、加深團隊共識。訓練不是到職第一週講完就結束，而是有階段、有節點、有人負責。</div>
+<h2>一、分階培訓計畫</h2>
+<div class="callout callout-warn"><div class="callout-title">⚠ 用「幾週內要能獨立完成什麼」定義通關標準</div><strong>訓練才有終點，員工也才知道自己走到哪裡。</strong></div>
+<table><tr><th>階段</th><th>期間</th><th>通關標準（「能獨立完成什麼」）</th></tr>
+<tr><td>新進助理</td><td>第 1–4 週</td><td>能獨立完成器械準備、基本跟診、消毒室流程</td></tr>
+<tr><td>進階助理</td><td>第 2–3 個月</td><td>能獨立跟完植牙／牙周手術、處理技工單</td></tr>
+<tr><td>諮詢師</td><td>依編制</td><td>能獨立完成自費療程諮詢與費用說明</td></tr>
+<tr><td>櫃檯</td><td>第 1–2 個月</td><td>能獨立完成掛號、收費、預約、電話應對</td></tr></table>
+<ul class="checklist">
+<li><input type="checkbox"><label>各階段通關標準書面化</label></li>
+<li><input type="checkbox"><label>每位新人到職時拿到自己的培訓路徑表</label></li>
+</ul>
+<h2>二、客製化教材</h2>
+<div class="callout callout-danger"><div class="callout-title">🚫 不要用廠商的通用教材取代</div>教材要用<strong>自己診所的器械、自己的系統、自己的空間</strong>拍。通用教材教不了「我們家的滅菌鍋按哪顆」。</div>
+<ul class="checklist">
+<li><input type="checkbox"><label>器械準備教材（各療程器械盤照片 + 說明）</label></li>
+<li><input type="checkbox"><label>系統操作影音（掛號、預約、收費、病歷登錄）</label></li>
+<li><input type="checkbox"><label>空間與動線說明（消毒室單向流動、耗材存放位置）</label></li>
+<li><input type="checkbox"><label>各療程跟診 SOP（對應 WSOP-04）</label></li>
+</ul>
+<h2>三、互動式課程</h2>
+<div class="callout callout-warn"><div class="callout-title">⚠ 單向講述的效率極低</div><strong>讓助理演一次「病人」，往後的溝通品質會明顯不同。</strong>角色互換是最便宜也最有效的訓練工具 — 不用教材、不用場地，只要排進晨會。</div>
+<table><tr><th>情境</th><th>演練重點</th></tr>
+<tr><td>初診接待到離院</td><td>全流程動線與交接</td></tr>
+<tr><td>自費療程諮詢</td><td>話術、費用說明（WSOP-09）</td></tr>
+<tr><td>患者抱怨</td><td>分級處理與情緒應對（WSOP-08）</td></tr>
+<tr><td>緊急醫療狀況</td><td>昏厥、過敏性休克應變（WSOP-07）</td></tr>
+<tr><td>電話預約</td><td>應答、改約、失聯處理</td></tr></table>
+<h2>四、帶訓制度與考核節點</h2>
+<div class="callout callout-danger"><div class="callout-title">🚫 避免「大家一起教」</div><strong>「大家一起教」通常等於沒有人教。</strong>每位新人指定<strong>一位</strong>帶訓者，責任才會落地。</div>
+<table><tr><th>節點</th><th>檢核內容</th><th>執行者</th></tr>
+<tr><td><strong>30 天</strong></td><td>基本流程熟悉度、態度與配合度、是否續用</td><td>帶訓者 + 主管</td></tr>
+<tr><td><strong>60 天</strong></td><td>獨立作業能力、錯誤率</td><td>帶訓者 + 主管</td></tr>
+<tr><td><strong>90 天</strong></td><td>通關標準達成、正式任用與定薪</td><td>主管 + 院長</td></tr></table>
+<ul class="checklist">
+<li><input type="checkbox"><label>指定專責帶訓者</label></li>
+<li><input type="checkbox"><label>每個節點有書面檢核表與面談紀錄</label></li>
+<li><input type="checkbox"><label>結果連動獎金與考核制度（QP-03）</label></li>
+</ul>
+<div class="callout callout-tip"><div class="callout-title">💡 帶訓者的獎勵</div><strong>指定專責帶訓者，並給予相應時數獎勵。</strong>帶訓是額外工作量，沒有對應報酬就不會有人認真帶。</div>`
+},
 {id:'WSOP-01', cat:'WSOP', title:'開診流程', badge:'badge-wsop',
  desc:'09:30–10:00 開診前六大步驟',
  content:`
@@ -679,8 +1109,49 @@ const DOCS = [
 <div class="callout callout-note"><div class="callout-title">🩺 角色守則</div>不做診斷、不承諾費用、不代替醫師說明——衛教以診所提供的衛教單為主。</div>`
 },
 {id:'WSOP-05', cat:'WSOP', title:'耗材盤點流程', badge:'badge-wsop',
- desc:'每日補充、每週盤點、每月結算、植體逐批追蹤',
+ ver:'v2.0', date:'2026-09-13',
+ desc:'四步採購、庫存三軸、每日補充／每週盤點／每月結算、植體追蹤',
  content:`
+<div class="callout callout-note"><div class="callout-title">📌 兩套方法</div><strong>開業前的採購用「四步採購」，開業後的管理用「三軸庫存」。</strong></div>
+<h2>開業前：四步採購</h2>
+<h3>STEP 1 依架構分類設定類別</h3>
+<p>按<strong>區域、科別、站別</strong>建立分類架構。</p>
+<div class="callout callout-tip"><div class="callout-title">💡</div><strong>先有分類架構，採購清單才不會變成一張看不完的長表。</strong></div>
+<h3>STEP 2 列出採購品項</h3>
+<p><strong>廠牌、名稱、規格</strong>逐項列明。</p>
+<div class="callout callout-tip"><div class="callout-title">💡</div><strong>規格寫清楚才能真正比價。</strong>「複合樹脂一支」跟「A2 色號 4g 特定廠牌」是兩回事。</div>
+<h3>STEP 3 計算採購數量</h3>
+<p>依<strong>門診量、動線與消毒週期</strong>估算。</p>
+<div class="callout callout-warn"><div class="callout-title">⚠ 兩個時間點</div>
+<ul><li>建議在<strong>開業前兩個月下訂</strong>，並注意<strong>廠商開業價的活動期限</strong></li>
+<li>數量<strong>分兩階段評估</strong>：先備<strong>開幕首月用量</strong>，再依實際門診量調整</li>
+<li>開幕前 <strong>2–3 週</strong>完成進場</li></ul></div>
+<h3>STEP 4 廠商評估</h3>
+<p>比<strong>品質</strong>、比<strong>價格</strong>、並確認<strong>交易條件</strong>（付款方式、最低訂購量、退換貨、送貨頻率）。</p>
+<div class="callout callout-danger"><div class="callout-title">🚫 供應來源</div>牙材耗材建議<strong>至少維持兩家供應來源</strong>。單一供應商斷貨時，診所不能跟著停診。</div>
+<h3>開業前採購檢核</h3>
+<ul class="checklist">
+<li><input type="checkbox"><label>分類架構建立（區域 / 科別 / 站別）</label></li>
+<li><input type="checkbox"><label>採購品項表完成（廠牌、名稱、規格逐項）</label></li>
+<li><input type="checkbox"><label>首月用量估算完成（依預估門診量 + 消毒週期）</label></li>
+<li><input type="checkbox"><label>各品項至少兩家廠商比價與交易條件確認</label></li>
+<li><input type="checkbox"><label>開業前 2 個月下訂（確認開業價活動期限）</label></li>
+<li><input type="checkbox"><label>開幕前 2–3 週進場、驗收、上架</label></li>
+</ul>
+<h2>開業後：庫存管理三軸</h2>
+<table><tr><th>軸</th><th>做法</th></tr>
+<tr><td><strong>週期盤點</strong></td><td>每日補充 / 每週盤點 / 每月結算</td></tr>
+<tr><td><strong>ABC 分類</strong></td><td>A 高週轉、B 中週轉、C 低週轉／高單價</td></tr>
+<tr><td><strong>出入庫管理</strong></td><td>FIFO / FEFO / 雙堆法</td></tr></table>
+<h3>出入庫三法</h3>
+<table><tr><th>方法</th><th>全稱</th><th>適用</th></tr>
+<tr><td><strong>FIFO</strong></td><td>First In, First Out（先進先出）</td><td>一般耗材，依入庫順序使用</td></tr>
+<tr><td><strong>FEFO</strong></td><td>First Expired, First Out（先到期先出）</td><td><strong>有效期敏感品項</strong>：麻醉藥、樹脂、黏著劑、印模材</td></tr>
+<tr><td><strong>雙堆法</strong></td><td>Two-bin system</td><td>高週轉小品項：分兩堆，第一堆用完即觸發補貨</td></tr></table>
+<div class="callout callout-warn"><div class="callout-title">⚠ 效期品項用 FEFO，不是 FIFO</div>先進的不一定先過期。麻藥、樹脂、根管沖洗液這類要看<strong>效期</strong>排序，不是看入庫日。</div>
+<div class="callout callout-tip"><div class="callout-title">💡 高低價值品項的策略相反</div>
+<ul><li><strong>高價值牙材</strong>（植體、骨粉、口掃耗材）→ <strong>重點管理</strong>，逐批追蹤，不超量備存</li>
+<li><strong>低價值品項</strong>（手套、棉捲、紙巾）→ 可評估<strong>大量訂貨降低成本</strong></li></ul></div>
 <h2>耗材三層管控</h2>
 <table><tr><th>層級</th><th>對象</th><th>頻率</th></tr>
 <tr><td>每日補充</td><td>A 類高週轉消耗品</td><td>每日開診前 + 收診後</td></tr>
@@ -1352,8 +1823,8 @@ function renderDoc(el, doc) {
     <h1>${doc.id} — ${doc.title}</h1>
     <div class="meta">
       <span><span class="badge ${doc.badge}">${doc.cat}</span></span>
-      <span>版本 v1.0</span>
-      <span>2026-06-28</span>
+      <span>版本 ${doc.ver || 'v1.0'}</span>
+      <span>${doc.date || '2026-06-28'}</span>
     </div>
     ${doc.content || '<p>內容整理中…</p>'}
   </div>`;
