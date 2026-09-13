@@ -159,7 +159,7 @@ body { font-family: -apple-system, "Noto Sans TC", sans-serif; color: var(--text
 <nav id="sidebar">
   <div id="sidebar-header">
     <h1>🦷 牙科診所<br>SOP 文件系統</h1>
-    <p>32 份標準作業程序</p>
+    <p>33 份標準作業程序</p>
   </div>
   <div id="search-wrap">
     <input id="search" type="text" placeholder="搜尋文件…" oninput="filterNav(this.value)">
@@ -286,7 +286,7 @@ const DOCS = [
 <tr><td>電腦掛號系統</td><td>NT$3–10 萬/年</td></tr>
 <tr><td>初期耗材備貨</td><td>NT$10–20 萬</td></tr>
 <tr><td><strong>合計（最低估算）</strong></td><td><strong>NT$300–900 萬</strong></td></tr></table>
-<div class="callout callout-warn"><div class="callout-title">⚠ 新診所健保限額</div>新開業診所前 18 個月健保申報有點數上限（高雄約 NT$30 萬/月），開業初期需積極發展自費療程補足收入缺口。</div>
+<div class="callout callout-danger"><div class="callout-title">🚫 新開業申報門檻（不是上限）</div>新開業院所在觀察期內有申報門檻，<strong>超過不是不給錢，而是觸發抽審與指標管控</strong>。北區（桃園）：觀察期 <strong>1 年</strong>，門檻為單一醫師月申報 <strong>32 萬</strong>或院所總額 <strong>70 萬</strong>。<strong>各分區數字不同。</strong>完整規定見 PRE-10。</div>
 <h2>設備採購關鍵時程</h2>
 <ul>
 <li>治療椅：交期 8–12 週，早下訂</li>
@@ -446,7 +446,7 @@ const DOCS = [
 <li><input type="checkbox"><label>銀行帳戶資料（健保費用請領用）</label></li>
 <li><input type="checkbox"><label>健保署派員實地查核</label></li>
 <li><input type="checkbox"><label>簽訂健保特約合約，確認生效日</label></li></ul>
-<div class="callout callout-warn"><div class="callout-title">⚠ 新特約院所受關注度較高</div>新特約診所在抽審上受到的關注度較高，<strong>病歷記載的完整性是抽審成敗的關鍵</strong>。新開業前 18 個月另有申報點數上限，開業前務必向健保署當地業務組確認最新數字。</div>
+<div class="callout callout-warn"><div class="callout-title">⚠ 新特約院所受關注度較高</div>新特約診所在抽審上受到的關注度較高，<strong>病歷記載的完整性是抽審成敗的關鍵</strong>。觀察期內另有申報門檻與指標管控（北區：1 年、32 萬/醫師或 70 萬/院所），<strong>各分區不同</strong>，開業前務必向當地業務組與公會索取現行版本。見 PRE-10。</div>
 
 <h2>七、診所命名、招牌與醫療廣告法規</h2>
 <h3>診所命名</h3>
@@ -646,7 +646,8 @@ const DOCS = [
 <div class="callout callout-tip"><div class="callout-title">💡 系統選型時就要確認</div>資料可完整匯出 — 見 PRE-03 診所管理系統。</div>`
 },
 {id:'PRE-06', cat:'PRE', title:'病歷與同意書 SOP', badge:'badge-pre',
- desc:'SOAP 格式、各療程同意書、廣告合規 SOP',
+ ver:'v2.0', date:'2026-09-13',
+ desc:'SOAP 格式、臨床攝影規格、各療程同意書、廣告合規',
  content:`
 <h2>初診病歷必填欄位</h2>
 <table><tr><th>欄位</th><th>內容</th></tr>
@@ -662,6 +663,16 @@ const DOCS = [
 <tr><td><strong>O</strong>bjective</td><td>臨床發現（探測、視診、X 光、冷熱測試等）</td></tr>
 <tr><td><strong>A</strong>ssessment</td><td>診斷（用正確診斷名稱，必要時附 ICD 碼）</td></tr>
 <tr><td><strong>P</strong>lan</td><td>治療計畫 + 今日執行 + 下次療程說明</td></tr></table>
+<h2>臨床攝影規格（健保抽審用）</h2>
+<div class="callout callout-danger"><div class="callout-title">🚫 要的是「術前／術中／術後」三個時點</div>依《全民健康保險醫事服務機構醫療服務審查辦法》第四條（衛署健保字第 0942600257 號令），被抽審時需提供的「診療相關證明文件」為：<strong>X 光片</strong>、<strong>術前／術中／術後臨床彩色照片（須註明日期，尺寸至少 3×5 吋）</strong>、保險醫療費用明細表。<br><br><strong>多數人只拍術前與術後 — 缺「術中」事後完全補不回來。</strong>這是開業第一天就要建立的習慣。詳見 PRE-10。</div>
+<ul class="checklist">
+<li><input type="checkbox"><label><strong>術前</strong>照片（彩色、註明日期）</label></li>
+<li><input type="checkbox"><label><strong>術中</strong>照片（彩色、註明日期）← 最常漏</label></li>
+<li><input type="checkbox"><label><strong>術後</strong>照片（彩色、註明日期）</label></li>
+<li><input type="checkbox"><label>照片尺寸符合規格（至少 3×5 吋）</label></li>
+<li><input type="checkbox"><label>照片納入病歷系統，與就診日期對應</label></li>
+<li><input type="checkbox"><label>患者同意書含同意攝影並使用於醫療記錄</label></li>
+</ul>
 <h2>需取得同意書的情境</h2>
 <table><tr><th>情境</th><th>同意書種類</th></tr>
 <tr><td>所有患者初診</td><td>一般診療同意書（含個資使用同意）</td></tr>
@@ -801,6 +812,103 @@ const DOCS = [
 <li><input type="checkbox"><label>活動照片整理 → 社群後續使用</label></li>
 <li><input type="checkbox"><label>當日初診患者納入回診追蹤（WSOP-12）</label></li>
 <li><input type="checkbox"><label>新患者來源記錄（活動 vs GMB vs 口碑）（WSOP-11）</label></li>
+</ul>`
+},
+{id:'PRE-10', cat:'PRE', title:'新開業申報限制與指標管控（北區）', badge:'badge-pre',
+ ver:'v1.0', date:'2026-09-13',
+ desc:'觀察期門檻、7 項指標、階梯式監控、抽審應備文件',
+ content:`
+<div class="callout callout-danger"><div class="callout-title">🚫 這不是「申報上限」，是「觸發抽審的門檻」</div>常見誤解是把 32 萬／70 萬當成不能超過的天花板。<strong>實際上超過不是不給錢，而是該院所案件抽審一個月，並執行指標管控。</strong><br><br>誤解的代價是反過來的：因為怕「超過上限」而刻意壓低申報、推遲病人治療，反而在臨床與營運上都不划算。正確做法是<strong>知道門檻在哪、知道哪些項目不計入、把病歷寫到禁得起抽審</strong>。</div>
+<div class="callout callout-warn"><div class="callout-title">⚠ 分區與版本</div>本頁為<strong>健保署北區業務組</strong>規定（桃園、新竹、苗栗），版本 <strong>108.03.28</strong>。
+<ul><li><strong>其他分區（南區、高屏等）數字與規則不同</strong>，請向當地業務組與公會確認</li>
+<li>原文註明「本規定執委會得<strong>每三個月檢討一次</strong>」，數字會變，開業前請重新索取最新版</li></ul></div>
+<h2>一、誰受規範</h2>
+<p><strong>新開業院所定義</strong>：向健保署申請新的診所代碼，即屬新開業院所，院所之負責醫師即為新開業醫師。</p>
+<div class="callout callout-warn"><div class="callout-title">⚠ 範圍是全院所，不只負責醫師</div>該院所內<strong>所有醫師（含開業及服務醫師）皆須遵循</strong>新加入會員暨新開業會員之申報規定。</div>
+<h3>三種可申請排除的特殊狀況</h3>
+<table><tr><th>#</th><th>情況</th><th>條件</th></tr>
+<tr><td>1</td><td>同縣市搬遷取得新代碼</td><td>於同縣市<strong>開業滿一年以上</strong>且<strong>未曾受健保署處分</strong></td></tr>
+<tr><td>2</td><td>更換負責醫師的院所</td><td>最近一年院所 21 項指標第 <strong>14、16、18、21</strong> 項在北區平均值以下，且未曾受處分</td></tr>
+<tr><td>3</td><td>資深牙醫師原縣市新開業</td><td>同縣市曾領有<strong>開業執照滿一年以上</strong>，或<strong>服務滿十年以上</strong>，且未曾離開原執業縣市</td></tr></table>
+<div class="callout callout-warn"><div class="callout-title">⚠ 排除條款的兩個限制</div>
+<ul><li>第 3 項<strong>排除曾停止特約及終止特約之牙醫師</strong></li>
+<li>申請排除成功者（以及 1:4500 以上人口地區者）<strong>仍應於觀察期內監控院所指標數據</strong> — 排除的是申報額度限制，不是指標管控</li></ul></div>
+<p><strong>人口密度豁免</strong>：1:4500 以上人口地區不受新開業限制。</p>
+<h2>二、申報額度門檻</h2>
+<table><tr><th>對象</th><th>觀察期</th><th>門檻</th></tr>
+<tr><td><strong>新開業醫師</strong></td><td><strong>1 年</strong></td><td>單一醫師每月申報 <strong>32 萬</strong>，或院所申報總金額 <strong>70 萬</strong></td></tr>
+<tr><td><strong>新服務醫師</strong>（受僱）</td><td><strong>半年</strong></td><td>每月申報 <strong>小於 32 萬</strong>則不受本規定限制</td></tr></table>
+<h3>超過門檻會怎樣</h3>
+<pre>觀察期內某月「最高申報額度醫師 &gt; 32 萬」或「院所總額 &gt; 70 萬」
+        ↓
+該院所案件「抽審一個月」＋ 執行指標管控</pre>
+<div class="callout callout-note"><div class="callout-title">📌 70 萬怎麼算出來的</div>原文說明：統計一位醫師平均申報金額 × 一間診所平均醫師數。此為台北分區 70 萬的由來；北區統計值小於 70 萬，經討論<strong>放寬</strong>以 70 萬計。</div>
+<h2>三、不計入門檻的扣除項目</h2>
+<div class="callout callout-tip"><div class="callout-title">💡 牙周專科特別注意</div><strong>牙周病統合治療三個階段全部不計入門檻。</strong>這對以牙周治療為主力的診所，是觀察期內很關鍵的空間。</div>
+<table><tr><th>類別</th><th>項目</th></tr>
+<tr><td><strong>牙周病統合治療</strong></td><td><strong>91021C</strong>（第一階段）、<strong>91022C</strong>（第二階段）、<strong>91023C</strong>（第三階段）</td></tr>
+<tr><td>假日</td><td>週日及國定假日申報點數（以<strong>申報就醫日期</strong>認定）</td></tr>
+<tr><td>專款項目</td><td>無牙醫鄉執業、巡迴及特殊服務項目：<strong>案件類別 14、16</strong></td></tr>
+<tr><td>矯正機關</td><td>收容於矯正機關者醫療服務計畫</td></tr>
+<tr><td>預防保健</td><td><strong>案件分類 A3</strong>（牙齒預防保健案件）</td></tr>
+<tr><td>戒菸</td><td><strong>案件分類 B7</strong>（代辦戒菸服務補助計畫）</td></tr></table>
+<h2>四、指標管控</h2>
+<h3>絕對指標（4 項）</h3>
+<table><tr><th>#</th><th>指標</th><th>門檻</th><th>計算單位</th></tr>
+<tr><td>a</td><td>申請總金額</td><td>進入<strong>前 3%</strong></td><td>—</td></tr>
+<tr><td>b</td><td>重複洗牙率</td><td>高於全區 <strong>90</strong> 百分位</td><td>—</td></tr>
+<tr><td>c</td><td><strong>OD 耗值</strong></td><td>高於全區 <strong>75</strong> 百分位</td><td><strong>季</strong></td></tr>
+<tr><td>d</td><td>就醫病患平均耗用值</td><td>高於 <strong>75</strong> 百分位</td><td><strong>月</strong></td></tr></table>
+<h3>相對指標（3 項）</h3>
+<table><tr><th>#</th><th>指標</th><th>門檻</th></tr>
+<tr><td>a</td><td>平均填補顆數</td><td>高於 75 百分位</td></tr>
+<tr><td>b</td><td>二年他家重補率</td><td>高於 75 百分位</td></tr>
+<tr><td>c</td><td>OD 佔率</td><td>—</td></tr></table>
+<div class="callout callout-warn"><div class="callout-title">⚠ 換算規則</div><strong>2 個相對指標 = 1 個絕對指標</strong></div>
+<h3>階梯式監控流程</h3>
+<pre>2 個絕對指標進入
+        ↓
+醫療品質監控措施：抽審並追蹤 2 個月
+        ↓
+第一次追蹤期間有 1 個月進入
+        ↓
+檢附診療相關證明文件 3 個月
+        ↓
+檢附期間有 2 個月進入 → 延長檢附 3 個月</pre>
+<p><strong>兩個附帶機制</strong></p>
+<ul>
+<li>追蹤 3 個月期間，<strong>任一費用月</strong>進入 → 通知院所前來<strong>教育相談</strong></li>
+<li><strong>持續進入「醫療品質監控期」二次</strong> → 依衛署健保字第 0942600257 號令提供診療相關文件，為期 3 個月，經委員會檢討後決議是否解除</li>
+</ul>
+<h2>五、診療相關證明文件（被抽到時要交什麼）</h2>
+<p><strong>法源</strong>：《全民健康保險醫事服務機構醫療服務審查辦法》第四條（衛署健保字第 0942600257 號令）</p>
+<table><tr><th>#</th><th>文件</th><th>規格要求</th></tr>
+<tr><td>1</td><td><strong>X 光片</strong></td><td>—</td></tr>
+<tr><td>2</td><td><strong>術前、術中、術後臨床彩色照片</strong></td><td><strong>須註明日期</strong>；彩色照片尺寸至少 <strong>3×5 吋</strong></td></tr>
+<tr><td>3</td><td>保險醫療費用明細表</td><td>—</td></tr></table>
+<div class="callout callout-danger"><div class="callout-title">🚫 「術中」照片最容易漏</div>多數人只拍術前與術後。規定明確要求<strong>術前、術中、術後三個時點</strong>，且要註明日期。<strong>這是開業第一天就要建立的攝影習慣 — 事後補不回來。</strong></div>
+<h2>六、新服務醫師（受僱醫師）</h2>
+<ul>
+<li>觀察期 <strong>半年</strong></li>
+<li>1:4500 以上人口地區不受新開業新服務限制</li>
+<li><strong>廢除三聯單，日報表仍需填寫</strong></li>
+<li>半年內每月申報額度 <strong>小於 32 萬</strong>（扣除項目同上），則不受本規定限制</li>
+</ul>
+<h2>七、其他程序規定</h2>
+<ul>
+<li>填寫日報表日期、抽審＋立意審查月份，<strong>皆依院所收到公文上之指示日期</strong>開始實施</li>
+<li>本規定執委會得<strong>每三個月檢討一次</strong></li>
+</ul>
+<h2>開業前檢核</h2>
+<ul class="checklist">
+<li><input type="checkbox"><label>向<strong>開業所在地公會</strong>索取現行版本（本版為 108.03.28）</label></li>
+<li><input type="checkbox"><label>確認所在分區（桃園＝北區；其他縣市數字不同）</label></li>
+<li><input type="checkbox"><label>確認是否符合三種排除條款之一</label></li>
+<li><input type="checkbox"><label>確認所在地是否為 1:4500 以上人口地區</label></li>
+<li><input type="checkbox"><label>試算：主力療程中哪些屬扣除項目（91021C/91022C/91023C、A3、B7）</label></li>
+<li><input type="checkbox"><label>建立<strong>術前／術中／術後</strong>臨床攝影 SOP（彩色、註明日期、至少 3×5）</label></li>
+<li><input type="checkbox"><label>建立日報表填寫流程</label></li>
+<li><input type="checkbox"><label>觀察期內每月自我監控 7 項指標</label></li>
 </ul>`
 },
 {id:'QM-01', cat:'QM', title:'診所管理手冊', badge:'badge-qm',
